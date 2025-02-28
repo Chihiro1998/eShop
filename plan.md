@@ -1,7 +1,8 @@
 # E-Commerce Project Implementation Plan
 
-- **Author:**Yuchen(Olivia) Kuang,Yantong Guo,Siyun Sun
-- **Date:**2025/2/27
+- **Author:** Yuchen(Olivia) Kuang,Yantong Guo,Siyun Sun
+- **Date:** 2025/2/27
+  
 ## Requirements
 
 ### Prioritized Project Objectives
@@ -62,7 +63,7 @@
 | 2    | 28 Feb | **Project Proposal Submission** | Submit initial project proposal and plan | Proposal due |
 | 3    |  7 Mar | **Team Online Meeting 02**| Check out the progress of V1 and the discussion on adjustments needed | V0.1 Key Tasks|
 | 4    | 14 Mar | **v0.1 Review** | In-class v0.1 review & instructor-team discussions |  v0.1 due |
-| 5    | 21 Mar | **Team Online Meeting 03** | Check out the progress of V1 and the discussion on adjustments needed | V0.2 Key Tasks|
+| 5    | 21 Mar | **Team Online Meeting 03** | Check out the progress of V2 and the discussion on adjustments needed | V0.2 Key Tasks|
 | 6    | 28 Mar | **v0.2 Review**  | In-class v0.2 review & instructor-team discussions | v0.2 due |
 | 7    |  4 Apr | **Team Online Meeting 04** | Check out the progress of V3 and the discussion on adjustments needed | V0.3 Key Tasks|
 | 8    | 11 Apr | **v0.3 Presentations**  | In-class project demos | v0.3 & Docs due |
