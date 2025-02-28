@@ -1,7 +1,7 @@
 # E-Commerce Project Proposal
 
-- **Author:**Yuchen(Olivia) Kuang,Yantong Guo,Siyun Sun
-- **Date:**2025/2/27
+- **Author:** Yuchen(Olivia) Kuang,Yantong Guo,Siyun Sun
+- **Date:** 2025/2/27
 
 ## Team
 - **Team Lead:** Yuchen Kuang
