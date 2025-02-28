@@ -1,6 +1,6 @@
 # E-Commerce Project Implementation Plan
 
-- **Author:** Yuchen(Olivia) Kuang,Yantong Guo,Siyun Sun
+- **Author:** Yuchen(Olivia) Kuang,Yantong Guo,Siyu Sun
 - **Date:** 2025/2/27
   
 ## Requirements
