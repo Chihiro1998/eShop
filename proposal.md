@@ -9,7 +9,7 @@
 
 ## Project goal
 
-We are building an **e-commerce site** that allows users to browse, search, and purchase products online. Our platform will feature a user-friendly interface, secure authentication, and an efficient order management system. The goal is to provide a seamless shopping experience for customers while enabling administrators to manage inventory and sales effectively.
+We will build an **e-commerce site** that allows users to browse, search, and purchase products online. Our platform will feature a user-friendly interface, secure authentication, and an efficient order management system. The goal is to provide a seamless shopping experience for customers while enabling administrators to manage inventory and sales effectively.
 
 ## User stories
 
