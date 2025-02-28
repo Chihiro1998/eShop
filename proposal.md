@@ -7,7 +7,7 @@
 
 ## Team
 - **Team Lead:** Yuchen Kuang
-- **Team Members:** Yantong Guo, Siyun Sun
+- **Team Members:** Yantong Guo, Siyu Sun
 
 ## Project goal
 
