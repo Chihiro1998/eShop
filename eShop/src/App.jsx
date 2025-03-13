@@ -6,14 +6,15 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import AdminLayout from "./components/admin/Layout";
 import Dashboard from "./pages/admin/Dashboard";
-import ShopLayout from "./components/shopping/layout";
-import ShopHome from "./pages/shop/Home";
+import Home from "./pages/shop/Home";
+import ShopLayout from "./components/shop/Layout.jsx";
+import ShopCart from "./pages/shop/Cart.jsx";
+import ShopAccount from "./pages/shop/Account.jsx";
 
 
 function App() {
   return (
     <div>
-      <h1>Header component</h1>
       <BrowserRouter>
         <Routes>
           <Route path="/auth" element={<AuthLayout />}>
@@ -25,11 +26,15 @@ function App() {
             <Route path="dashboard" element={<Dashboard />} />
           </Route>
 
-          <Route path="/shop" element={<ShopLayout />} >
-            <Route path="home" element={<ShopHome />} />
-            <Route path="product" element={<Product />} />
-            <Route path="checkout" element={<ShopCheckout />} />
-
+          <Route path="/" element={<ShopLayout />} >
+            <Route path="/" element={<Home />} />
+            <Route path="/electronics" element={<Product />} />
+            <Route path="/clothes" element={<Product />} />
+            <Route path="/books" element={<Product />} />
+            <Route path="/product" element={<Product />} />
+            <Route path="/cart/checkout" element={<ShopCheckout />} />
+            <Route path="/cart" element={<ShopCart />} />
+            <Route path="/account" element={<ShopAccount />} />
           </Route>
         </Routes>
       </BrowserRouter>

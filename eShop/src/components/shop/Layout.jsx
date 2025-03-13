@@ -6,7 +6,6 @@ function ShopLayout() {
   return (
     <div>
       <ShopHeader />
-      <div>Shopping layout</div>
       <Outlet />
     </div>
   )

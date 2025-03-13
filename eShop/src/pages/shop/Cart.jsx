@@ -2,15 +2,15 @@ import {Link} from "react-router-dom";
 import React from "react";
 
 
-function ShopCheckout() {
+
+function ShopCart() {
   return (
       <div>
 
-          <h1>check out Page</h1>
-
-          <nav>
+          <h1>Cart Page</h1>
+          <nav >
               <div>
-                  <Link to="/cart">Return to Cart</Link>
+                  <Link to="/cart/checkout" >Check Out</Link>
               </div>
           </nav>
       </div>
@@ -18,4 +18,4 @@ function ShopCheckout() {
 }
 
 
-export default ShopCheckout
+export default ShopCart
