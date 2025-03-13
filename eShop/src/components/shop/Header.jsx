@@ -34,15 +34,17 @@ const Header = () => {
     const linkStyle = {
         color: '#333',
         fontSize: '1rem',
-        marginRight: '1rem',
+        marginRight: '2rem',
         textDecoration: 'none',
     };
 
     const formStyle = {
         display: 'flex',
         alignItems: 'center',
-        maxWidth: '400px',
         margin: '0 auto',
+        width: '100%',
+        maxWidth: '700px',
+        padding: '0.5 1rem',
     };
 
     const inputStyle = {

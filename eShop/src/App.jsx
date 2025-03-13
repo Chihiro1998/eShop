@@ -28,9 +28,9 @@ function App() {
 
           <Route path="/" element={<ShopLayout />} >
             <Route path="/" element={<Home />} />
-            <Route path="/electronics" element={<Product />} />
-            <Route path="/clothes" element={<Product />} />
-            <Route path="/books" element={<Product />} />
+            {/*<Route path="/electronics" element={<ProductCategory category = "electronics" />} />*/}
+            {/*<Route path="/clothes" element={<ProductCategory category = "clothes" />}/>*/}
+            {/*<Route path="/books" element={<ProductCategory category = "books" />} />*/}
             <Route path="/product" element={<Product />} />
             <Route path="/cart/checkout" element={<ShopCheckout />} />
             <Route path="/cart" element={<ShopCart />} />
