@@ -1,16 +1,15 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Product from "./pages/shop/Product"
-import ShopCheckout from "./pages/shop/Checkout"
-import AuthLayout from "./components/auth/Layout";
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
-import AdminLayout from "./components/admin/Layout";
-import Dashboard from "./pages/admin/Dashboard";
-import Home from "./pages/shop/Home";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AdminLayout from "./components/admin/Layout.jsx";
+import AuthLayout from "./components/auth/Layout.jsx";
 import ShopLayout from "./components/shop/Layout.jsx";
-import ShopCart from "./pages/shop/Cart.jsx";
+import Dashboard from "./pages/admin/Dashboard.jsx";
+import Login from "./pages/auth/Login.jsx";
+import Register from "./pages/auth/Register.jsx";
 import ShopAccount from "./pages/shop/Account.jsx";
-
+import ShopCart from "./pages/shop/Cart.jsx";
+import ShopCheckout from "./pages/shop/Checkout.jsx";
+import Home from "./pages/shop/Home.jsx";
+import Product from "./pages/shop/Product.jsx";
 
 function App() {
   // const isAuthenticated = false
@@ -19,22 +18,16 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/auth" element={
-            <AuthLayout />
-          }>
+          <Route path="/auth" element={<AuthLayout />}>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
           </Route>
 
-          <Route path="/admin" element={
-
-            <AdminLayout />
-
-          }>
+          <Route path="/admin" element={<AdminLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
           </Route>
 
-          <Route path="/" element={<ShopLayout />} >
+          <Route path="/" element={<ShopLayout />}>
             <Route path="/" element={<Home />} />
             {/*<Route path="/electronics" element={<ProductCategory category = "electronics" />} />*/}
             {/*<Route path="/clothes" element={<ProductCategory category = "clothes" />}/>*/}
@@ -47,8 +40,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </div>
-  )
-
+  );
 }
 
-export default App
+export default App;
