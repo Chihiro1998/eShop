@@ -13,16 +13,24 @@ import ShopAccount from "./pages/shop/Account.jsx";
 
 
 function App() {
+  // const isAuthenticated = false
+  // const user = null
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/auth" element={<AuthLayout />}>
+          <Route path="/auth" element={
+            <AuthLayout />
+          }>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
           </Route>
 
-          <Route path="/admin" element={<AdminLayout />}>
+          <Route path="/admin" element={
+
+            <AdminLayout />
+
+          }>
             <Route path="dashboard" element={<Dashboard />} />
           </Route>
 
