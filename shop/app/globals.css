@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+:root {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  height: 6px;
+}
+.scrollbar-thumb-purple-1::-webkit-scrollbar-thumb {
+  background-color: #3b317d;
+}
+.scrollbar-track-pink-100::-webkit-scrollbar-track {
+  background-color: #fce4ec;
+}
