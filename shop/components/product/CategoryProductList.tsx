@@ -1,54 +1,46 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 
-const mockProducts = [
-  {
-    id: "1",
-    title: "Spy x Family Tshirt",
-    price: 26.0,
-    imageUrl: "/images/products/shirt-1.jpg",
-    category: "Tops",
-  },
-  {
-    id: "2",
-    title: "Floral Sweatshirt",
-    price: 32.5,
-    imageUrl: "/images/products/sweatshirt-1.jpg",
-    category: "Sweatshirt",
-  },
-  {
-    id: "3",
-    title: "Summer Dress",
-    price: 48.0,
-    imageUrl: "/images/products/dress-1.jpg",
-    category: "Dress",
-  },
-  {
-    id: "4",
-    title: "CASHMERE CREW NECK ROSE_PINK",
-    price: 160.0,
-    imageUrl: "/images/products/knit-1.jpg",
-    category: "Knit",
-  },
-  {
-    id: "5",
-    title: "SILK BOW HAIR CLIP_NAVY",
-    price: 31.0,
-    imageUrl: "/images/products/accessories-1.jpg",
-    category: "Accessories",
-  },
-];
+interface Product {
+  _id: string;
+  title: string;
+  price: number;
+  media: string[];
+  category: string;
+}
 
 const CategoryProductList = ({
   selectedCategory,
 }: {
   selectedCategory: string;
 }) => {
-  const filteredProducts =
-    selectedCategory === "All Categories"
-      ? mockProducts
-      : mockProducts.filter((product) => product.category === selectedCategory);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch("/api/products");
+        const data = await res.json();
+
+        const filtered =
+          selectedCategory === "All Categories"
+            ? data
+            : data.filter((p: Product) => p.category === selectedCategory);
+
+        setProducts(filtered);
+      } catch (err) {
+        console.error("Failed to fetch products", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [selectedCategory]);
 
   return (
     <section className="px-6 py-10">
@@ -56,17 +48,21 @@ const CategoryProductList = ({
         {selectedCategory}
       </h2>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 px-4">
-        {filteredProducts.map((product) => (
-          <ProductCard
-            key={product.id}
-            id={product.id}
-            title={product.title}
-            price={product.price}
-            imageUrl={product.imageUrl}
-          />
-        ))}
-      </div>
+      {loading ? (
+        <p className="text-grey-1">Loading products...</p>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 px-4">
+          {products.map((product) => (
+            <ProductCard
+              key={product._id}
+              id={product._id}
+              title={product.title}
+              price={product.price}
+              imageUrl={product.media?.[0] || "/placeholder.jpg"}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 };

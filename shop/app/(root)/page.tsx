@@ -21,13 +21,11 @@ export default function Home() {
         />
       </div>
 
-      {/* Category 标签选择器 */}
       <CategorySelector
         selected={selectedCategory}
         onSelect={setSelectedCategory}
       />
 
-      {/* 根据分类展示商品卡 */}
       <CategoryProductList selectedCategory={selectedCategory} />
     </>
   );
