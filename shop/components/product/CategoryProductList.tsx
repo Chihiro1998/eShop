@@ -8,7 +8,7 @@ interface Product {
   title: string;
   price: number;
   media: string[];
-  category: string;
+  category: string[];
 }
 
 const CategoryProductList = ({
@@ -29,7 +29,9 @@ const CategoryProductList = ({
         const filtered =
           selectedCategory === "All Categories"
             ? data
-            : data.filter((p: Product) => p.category === selectedCategory);
+            : data.filter((p: Product) =>
+                p.category?.includes(selectedCategory)
+              );
 
         setProducts(filtered);
       } catch (err) {
