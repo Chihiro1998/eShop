@@ -24,10 +24,8 @@ export default clerkMiddleware(async (auth, req) => {
   const isAdmin = userId === process.env.NEXT_PUBLIC_ADMIN_ID;
   if (!isAdmin) {
     console.log(userId);
-    console.log('Not admin');
+    console.log('Not Admin');
 
-    const signOutUrl = new URL('/sign-in', req.url);
-    signOutUrl.searchParams.set('redirect_url', '/');
     return redirectToSignIn()
   }
 });

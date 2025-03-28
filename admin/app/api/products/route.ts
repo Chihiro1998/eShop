@@ -38,3 +38,19 @@ export const POST = async (req: NextRequest) => {
         return new NextResponse("internal Server Error", { status: 500 })
     }
 }
+
+
+export const GET = async (req: NextRequest) => {
+    try {
+        // connect to db
+        await connectToDB()
+        // get all products 
+        const products = await Product.find().sort({ createdAt: -1 })
+        return NextResponse.json(products, { status: 200 })
+    } catch (err) {
+        console.log("[product_GET]", err)
+        return new NextResponse("internal Server Error", { status: 500 }
+
+        )
+    }
+}

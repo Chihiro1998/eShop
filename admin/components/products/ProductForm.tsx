@@ -87,8 +87,6 @@ const ProductForm = () => {
 
             const data = await res.json();
             console.log("Product created:", data);
-
-            // 清空表单
             form.reset({
                 title: "",
                 description: "",
@@ -197,7 +195,7 @@ const ProductForm = () => {
                                     <FormLabel>Collections</FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder="Collections (comma separated)"
+                                            placeholder="Collections"
                                             value={field.value.join(", ")}
                                             onChange={(e) => {
                                                 const value = e.target.value;
@@ -206,7 +204,7 @@ const ProductForm = () => {
                                         />
                                     </FormControl>
                                     <FormDescription>
-                                        Enter collections separated by commas
+                                        {/* Enter collections separated by commas */}
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
