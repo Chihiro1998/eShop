@@ -4,6 +4,9 @@ import { Pacifico } from "next/font/google";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import useCart from "@/lib/hooks/useCart";
+import Link from "next/link";
+import {FiShoppingCart} from "react-icons/fi";
 
 interface Product {
   _id: string;
@@ -29,6 +32,8 @@ const ProductDetailPage = () => {
   const [showSizeWarning, setShowSizeWarning] = useState(false);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const cart = useCart();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -45,6 +50,8 @@ const ProductDetailPage = () => {
 
     fetchProduct();
   }, [productId]);
+
+
 
   if (loading) {
     return <p className="p-10 text-purple-1">Loading...</p>;
@@ -80,26 +87,26 @@ const ProductDetailPage = () => {
           <p className="text-sm text-gray-600 font-medium">Select Size:</p>
           <div className="flex gap-2 flex-wrap">
             {product.sizes?.map((size) => (
-              <button
-                key={size}
-                onClick={() => {
-                  setSelectedSize(size);
-                  setShowSizeWarning(false);
-                }}
-                className={`px-4 py-2 rounded border text-sm transition ${
-                  selectedSize === size
-                    ? "bg-purple-1 text-white border-purple-1"
-                    : "bg-white text-purple-1 border-purple-1"
-                }`}
-              >
-                {size}
-              </button>
+                <button
+                    key={size}
+                    onClick={() => {
+                      setSelectedSize(size);
+                      setShowSizeWarning(false);
+                    }}
+                    className={`px-4 py-2 rounded border text-sm transition ${
+                        selectedSize === size
+                            ? "bg-purple-1 text-white border-purple-1"
+                            : "bg-white text-purple-1 border-purple-1"
+                    }`}
+                >
+                  {size}
+                </button>
             ))}
           </div>
           {showSizeWarning && (
-            <p className="text-red-500 text-sm mt-1">
-              Please select a size before adding to cart.
-            </p>
+              <p className="text-red-500 text-sm mt-1">
+                Please select a size before adding to cart.
+              </p>
           )}
         </div>
 
@@ -127,18 +134,47 @@ const ProductDetailPage = () => {
         <button className="bg-purple-1 text-white py-3 px-6 uppercase">
           Buy It Now
         </button>
+
         <button
           onClick={() => {
             if (!selectedSize) {
               setShowSizeWarning(true);
               return;
             }
-            alert(`Added to cart: ${product.title} - Size: ${selectedSize}`);
+            cart.addItem({item:product, quantity})
+            setShowSuccess(true);
           }}
           className="border border-purple-1 text-purple-1 py-3 px-6 uppercase"
         >
           Add to Cart
         </button>
+
+        {showSuccess && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+              <div className="bg-white p-6 rounded shadow-lg text-center">
+                <p className="mb-4">
+                  Successfully added <strong>{product.title}</strong> to your cart!
+                </p>
+                <p className="mb-4">
+                  View Cart
+                </p>
+                <Link
+                    href="/cart"
+                    className="flex justify-center items-center text-2xl text-gray-700"
+                >
+                  <FiShoppingCart/>
+                </Link>
+                <button
+                    onClick={() => setShowSuccess(false)}
+                    className="mt-4 border border-purple-1 text-purple-1 py-2 px-4 uppercase"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+        )}
+
+
       </div>
     </div>
   );
