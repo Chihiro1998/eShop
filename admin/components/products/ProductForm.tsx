@@ -26,6 +26,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { X } from "lucide-react";
+import BackButton from "../custom ui/BackButton";
 
 const categories = [
     "Tops",
@@ -105,6 +106,7 @@ const ProductForm = () => {
 
     return (
         <div className="p-10">
+            <BackButton />
             <p className={`${pacifico.className} text-[32px] text-purple-1 mb-2`}>Create Product</p>
             <p className="text-body-medium text-grey-1 mb-6 ">
                 Create a new product to start selling
