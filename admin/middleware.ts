@@ -1,6 +1,36 @@
 import { clerkMiddleware } from "@clerk/nextjs/server";
+import { NextResponse } from 'next/server'
 
-export default clerkMiddleware();
+interface UserMetadata {
+  role?: string;
+}
+
+export default clerkMiddleware(async (auth, req) => {
+  const { userId, redirectToSignIn } = await auth();
+
+
+  if (req.nextUrl.pathname.startsWith('/sign-in')) {
+    return;
+  }
+
+
+  if (!userId) {
+    const signInUrl = new URL('/sign-in', req.url);
+    signInUrl.searchParams.set('redirect_url', req.nextUrl.pathname);
+    return NextResponse.redirect(signInUrl);
+  }
+
+
+  const isAdmin = userId === process.env.NEXT_PUBLIC_ADMIN_ID;
+  if (!isAdmin) {
+    console.log(userId);
+    console.log('Not admin');
+
+    const signOutUrl = new URL('/sign-in', req.url);
+    signOutUrl.searchParams.set('redirect_url', '/');
+    return redirectToSignIn()
+  }
+});
 
 export const config = {
   matcher: [
@@ -9,4 +39,4 @@ export const config = {
     // Always run for API routes
     "/(api|trpc)(.*)",
   ],
-};
+}

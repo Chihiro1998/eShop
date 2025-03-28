@@ -59,7 +59,26 @@ export default function SignInPage() {
         }}
       >
         <div style={{ width: "400px" }}>
-          <SignIn />
+          <SignIn
+            appearance={{
+              layout: {
+                socialButtonsPlacement: "bottom"
+              },
+              elements: {
+                socialButtons: {
+                  display: "none"
+                },
+                formButtonPrimary: {
+                  backgroundColor: "#3B317D",
+                  "&:hover": {
+                    backgroundColor: "#2A2359"
+                  }
+                }
+              }
+            }}
+            afterSignInUrl="/dashboard"
+            signUpUrl=""
+          />
         </div>
       </div>
     </div>

@@ -22,9 +22,8 @@ const NavBar = () => {
           <Link
             href={link.url}
             key={link.label}
-            className={`flex gap-4 text-body-medium ${
-              pathname === link.url ? "text-pink-100" : "text-purple-2"
-            }`}
+            className={`flex gap-4 text-body-medium ${pathname === link.url ? "text-pink-100" : "text-purple-2"
+              }`}
           >
             <p>{link.label}</p>
           </Link>
