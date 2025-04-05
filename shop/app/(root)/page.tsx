@@ -1,5 +1,6 @@
 "use client";
 
+import CollectionList from "@/components/collection/CollectionList";
 import CategoryProductList from "@/components/product/CategoryProductList";
 import CategorySelector from "@/components/product/CategorySelector";
 import Image from "next/image";
@@ -27,6 +28,7 @@ export default function Home() {
       />
 
       <CategoryProductList selectedCategory={selectedCategory} />
+      <CollectionList />
     </>
   );
 }
