@@ -20,19 +20,17 @@ const CollectionList = () => {
   const [collections, setCollections] = useState<Collection[]>([]);
 
   useEffect(() => {
-    const mockCollections = [
-      {
-        _id: "1",
-        title: "Spring Collection",
-        image: "/images/collections/spring.jpg",
-      },
-      {
-        _id: "2",
-        title: "Knitwear Picks",
-        image: "/images/collections/knit.jpg",
-      },
-    ];
-    setCollections(mockCollections);
+    const fetchCollections = async () => {
+      try {
+        const res = await fetch("/api/collections");
+        const data = await res.json();
+        setCollections(data);
+      } catch (err) {
+        console.error("Failed to fetch collections", err);
+      }
+    };
+
+    fetchCollections();
   }, []);
 
   return (
