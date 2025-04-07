@@ -4,22 +4,20 @@ import connectToDatabase from "@/lib/mongoDB";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-interface Props {
-  params: {
-    collectionId: string;
-  };
-}
-
-const CollectionDetailPage = async ({ params }: Props) => {
+const CollectionDetailPage = async ({
+  params,
+}: {
+  params: { collectionId: string };
+}) => {
   await connectToDatabase();
 
   const collection = await Collection.findById(params.collectionId).populate(
     "products"
   );
 
-  if (!collection) {
-    return notFound();
-  }
+  if (!collection) return notFound();
+
+  const plainProducts = JSON.parse(JSON.stringify(collection.products));
 
   return (
     <div className="px-6 py-10 max-w-7xl mx-auto">
@@ -36,7 +34,7 @@ const CollectionDetailPage = async ({ params }: Props) => {
       </h1>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-        {collection.products.map((product: any) => (
+        {plainProducts.map((product: any) => (
           <ProductCard
             key={product._id}
             id={product._id}
