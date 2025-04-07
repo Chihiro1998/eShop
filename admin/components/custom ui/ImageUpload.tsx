@@ -18,6 +18,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     onChange(result.info.secure_url);
   }
 
+
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-4 gap-4">
@@ -28,8 +29,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 src={url}
                 alt="product"
                 className="object-cover rounded-lg"
-                width={200}
-                height={200}
+                width={600}
+                height={400}
               />
             </div>
             <button

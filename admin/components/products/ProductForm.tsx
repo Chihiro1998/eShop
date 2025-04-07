@@ -41,8 +41,8 @@ const categories = [
 const sizes = ["XS", "S", "M", "L", "XL"];
 
 const formSchema = z.object({
-    title: z.string().min(2).max(20),
-    description: z.string().min(2).max(50).trim(),
+    title: z.string().min(2).max(50),
+    description: z.string().min(2).max(500).trim(),
     media: z.array(z.string()),
     category: z.string(),
     collections: z.array(z.string()),
@@ -179,8 +179,24 @@ const ProductForm = () => {
                                     <div className="grid grid-cols-4 gap-4">
                                         <ImageUpload
                                             value={field.value}
-                                            onChange={(url) => field.onChange([...field.value, url])}
-                                            onRemove={(url) => field.onChange([...field.value.filter((current) => current !== url)])} />
+                                            onChange={(url) => {
+                                                form.setValue('media', [...field.value, url], {
+                                                    shouldValidate: true,
+                                                    shouldDirty: true,
+                                                    shouldTouch: true
+                                                });
+                                            }}
+                                            onRemove={(url) => {
+                                                form.setValue('media',
+                                                    field.value.filter((current) => current !== url),
+                                                    {
+                                                        shouldValidate: true,
+                                                        shouldDirty: true,
+                                                        shouldTouch: true
+                                                    }
+                                                );
+                                            }}
+                                        />
                                     </div>
                                 </FormControl>
                                 <FormMessage />
