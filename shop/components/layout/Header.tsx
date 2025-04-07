@@ -4,7 +4,7 @@ import { SignOutButton, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { FiSearch, FiShoppingCart, FiUser } from "react-icons/fi";
+import { FiHeart, FiSearch, FiShoppingCart, FiUser } from "react-icons/fi";
 
 const Header = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -16,10 +16,12 @@ const Header = () => {
   return (
     <header className="sticky top-0 bg-white shadow z-50 font-roboto">
       <nav className="flex items-center justify-between px-8 py-4">
+        {/* Logo */}
         <Link href="/" className="ml-8">
           <Image src="/logo.png" alt="E-Shop Logo" width={120} height={50} />
         </Link>
 
+        {/* Search */}
         <form className="flex items-center w-full max-w-xl bg-gray-100 px-4 py-2 rounded-full mx-6">
           <select
             value={selectedCategory}
@@ -43,6 +45,7 @@ const Header = () => {
           </button>
         </form>
 
+        {/* Right icons */}
         <div className="flex items-center gap-4 mr-8 relative">
           <Link href="/cart" className="text-2xl text-gray-700">
             <FiShoppingCart />
@@ -50,19 +53,28 @@ const Header = () => {
 
           <span className="text-gray-400">|</span>
 
+          {/* User Dropdown */}
           <div className="relative">
             <button onClick={toggleUserMenu} className="text-2xl text-gray-700">
               <FiUser />
             </button>
 
             {showUserMenu && (
-              <div className="absolute right-0 top-10 bg-white shadow-lg rounded-md px-4 py-2 flex flex-col z-10">
+              <div className="absolute right-0 top-10 bg-white shadow-lg rounded-md px-4 py-2 flex flex-col z-10 min-w-[140px]">
                 {isSignedIn ? (
-                  <SignOutButton>
-                    <span className="py-1 text-sm text-gray-700 cursor-pointer block">
-                      Log Out
-                    </span>
-                  </SignOutButton>
+                  <>
+                    <Link
+                      href="/account"
+                      className="py-1 text-sm text-gray-700"
+                    >
+                      Account
+                    </Link>
+                    <SignOutButton>
+                      <span className="py-1 text-sm text-gray-700 cursor-pointer block">
+                        Log Out
+                      </span>
+                    </SignOutButton>
+                  </>
                 ) : (
                   <>
                     <Link
@@ -76,6 +88,13 @@ const Header = () => {
                       className="py-1 text-sm text-gray-700"
                     >
                       Register
+                    </Link>
+
+                    <Link
+                      href="/wishlist"
+                      className="py-1 text-sm text-gray-700 flex items-center gap-1"
+                    >
+                      <FiHeart className="text-purple-1" /> Wishlist
                     </Link>
                   </>
                 )}

@@ -4,14 +4,18 @@ import connectToDatabase from "@/lib/mongoDB";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-const CollectionDetailPage = async ({
-  params,
-}: {
-  params: { collectionId: string };
-}) => {
+interface Props {
+  params: {
+    collectionId: string;
+  };
+}
+
+const CollectionDetailPage = async ({ params }: Props) => {
+  const { collectionId } = params;
+
   await connectToDatabase();
 
-  const collection = await Collection.findById(params.collectionId).populate(
+  const collection = await Collection.findById(collectionId).populate(
     "products"
   );
 
