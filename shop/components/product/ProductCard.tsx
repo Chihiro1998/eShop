@@ -1,9 +1,10 @@
 "use client";
 
+import { useUser } from "@clerk/nextjs";
 import { Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ProductCardProps {
   id: string;
@@ -14,17 +15,41 @@ interface ProductCardProps {
 
 const ProductCard = ({ id, title, imageUrl, price }: ProductCardProps) => {
   const [liked, setLiked] = useState(false);
+  const { isSignedIn } = useUser();
+
+  useEffect(() => {
+    if (!isSignedIn) {
+      const local = localStorage.getItem("wishlist") || "[]";
+      const parsed = JSON.parse(local);
+      if (parsed.includes(id)) {
+        setLiked(true);
+      }
+    }
+  }, [id, isSignedIn]);
 
   const toggleWishlist = async () => {
     try {
-      const res = await fetch(`/api/wishlist/${id}`, {
-        method: "POST",
-      });
+      setLiked((prev) => !prev);
 
-      if (res.ok) {
-        setLiked(!liked);
+      if (isSignedIn) {
+        const res = await fetch(`/api/wishlist/${id}`, {
+          method: "POST",
+        });
+
+        if (!res.ok) {
+          console.error("Failed to update wishlist");
+        }
       } else {
-        console.error("Failed to update wishlist");
+        const existing = localStorage.getItem("wishlist") || "[]";
+        let parsed = JSON.parse(existing);
+
+        if (liked) {
+          parsed = parsed.filter((pid: string) => pid !== id);
+        } else {
+          parsed.push(id);
+        }
+
+        localStorage.setItem("wishlist", JSON.stringify(parsed));
       }
     } catch (err) {
       console.error("Error:", err);
