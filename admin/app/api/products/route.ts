@@ -12,10 +12,11 @@ export const POST = async (req: NextRequest) => {
             sizes,
             price,
             expense } = await req.json()
-        const existingProduct = await Product.findOne({ title })
-        if (existingProduct) {
-            return new NextResponse("Collect already existed", { status: 400 })
-        }
+        // if title is unique
+        // const existingProduct = await Product.findOne({ title })
+        // if (existingProduct) {
+        //     return new NextResponse("Product already existed", { status: 400 })
+        // }
         if (!title || !media) {
             console.log("Title and image are required")
             return new NextResponse("Title and image are required", { status: 400 })
