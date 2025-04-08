@@ -20,14 +20,17 @@ const Collections = function () {
   // get the data 
   const router = useRouter()
   const [collections, setCollections] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
   const getCollections = async () => {
     try {
       const res = await fetch("/api/collections", {
         method: "GET",
       })
+      console.log("res", res)
       const data = await res.json()
       setCollections(data)
+      setIsLoading(false)
     } catch (err) {
       console.log("[collections_GET", err)
     }
@@ -37,7 +40,7 @@ const Collections = function () {
     getCollections()
   }, [])
 
-  console.log(collections)
+  console.log("collections", collections)
   return (
     <div className="px-10 py-5">
       <div className="flex justify-between items-center">
@@ -51,7 +54,7 @@ const Collections = function () {
         </Button>
       </div>
       <Separator className="bg-grey-1 mt-4" />
-      <DataTable columns={columns} data={collections} />
+      <DataTable columns={columns} data={collections} searchKey="title" />
     </div>
   );
 }

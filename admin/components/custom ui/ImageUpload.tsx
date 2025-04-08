@@ -45,7 +45,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       <CldUploadWidget uploadPreset="eshop_product" onSuccess={onUpload}>
         {({ open }) => {
           return (
-            <Button onClick={() => open()} className='bg-purple-2 text-white rounded-sm'>
+            <Button type="button" onClick={() => open()} className='bg-purple-2 text-white rounded-sm'>
               <Plus className='h-4 w-4 mr-2' />Upload Images
             </Button>
           );

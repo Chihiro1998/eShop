@@ -49,7 +49,7 @@ const Products = () => {
         </Button>
       </div>
       <Separator className="bg-grey-1 mt-4 mb-7" />
-      <DataTable columns={columns} data={products} />
+      <DataTable columns={columns} data={products} searchKey="title" />
     </div>
   )
 }

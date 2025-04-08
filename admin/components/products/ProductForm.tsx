@@ -29,13 +29,14 @@ import { X } from "lucide-react";
 import BackButton from "../custom ui/BackButton";
 
 const categories = [
-    "Tops",
-    "Bottoms",
-    "Dresses",
-    "Activewear",
+    "Sweatshirt",
+    "Shirt",
+    "Knit",
+    "Dress",
+    "Skirt",
     "Outerwear",
-    "Underwear",
-    "Sleepwear"
+    "Bottoms",
+    "Accessories"
 ];
 
 const sizes = ["XS", "S", "M", "L", "XL"];
@@ -48,8 +49,8 @@ const formSchema = z.object({
     collections: z.array(z.string()),
     tags: z.array(z.string()),
     sizes: z.array(z.string()),
-    price: z.coerce.number().min(0.1),
-    expense: z.coerce.number().min(0.1)
+    price: z.coerce.number(),
+    expense: z.coerce.number()
 });
 
 const pacifico = Pacifico({
@@ -120,7 +121,7 @@ const ProductForm = () => {
                             name="title"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Title</FormLabel>
+                                    <FormLabel>Title*</FormLabel>
                                     <FormControl>
                                         <Input placeholder="Product Name" {...field} />
                                     </FormControl>
@@ -134,7 +135,7 @@ const ProductForm = () => {
                             name="category"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Category</FormLabel>
+                                    <FormLabel>Category*</FormLabel>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                         <FormControl>
                                             <SelectTrigger>
@@ -160,7 +161,7 @@ const ProductForm = () => {
                         name="description"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Description</FormLabel>
+                                <FormLabel>Description*</FormLabel>
                                 <FormControl>
                                     <Textarea placeholder="Description" {...field} rows={2} />
                                 </FormControl>
@@ -174,7 +175,7 @@ const ProductForm = () => {
                         name="media"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Images</FormLabel>
+                                <FormLabel>Images*</FormLabel>
                                 <FormControl>
                                     <div className="grid grid-cols-4 gap-4">
                                         <ImageUpload
@@ -205,30 +206,6 @@ const ProductForm = () => {
                     />
 
                     <div className="grid grid-cols-2 gap-6">
-                        <FormField
-                            control={form.control}
-                            name="collections"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Collections</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="Collections"
-                                            value={field.value.join(", ")}
-                                            onChange={(e) => {
-                                                const value = e.target.value;
-                                                field.onChange(value.split(",").map(item => item.trim()).filter(Boolean));
-                                            }}
-                                        />
-                                    </FormControl>
-                                    <FormDescription>
-                                        {/* Enter collections separated by commas */}
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
                         <FormField
                             control={form.control}
                             name="tags"
@@ -275,9 +252,7 @@ const ProductForm = () => {
                                 </FormItem>
                             )}
                         />
-                    </div>
 
-                    <div className="grid grid-cols-2 gap-6">
                         <FormField
                             control={form.control}
                             name="sizes"
@@ -331,50 +306,50 @@ const ProductForm = () => {
                                 </FormItem>
                             )}
                         />
+                    </div>
 
-                        <div className="grid grid-cols-2 gap-4">
-                            <FormField
-                                control={form.control}
-                                name="price"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Price</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                type="number"
-                                                placeholder="Product Price"
-                                                step="0.01"
-                                                min="0.1"
-                                                {...field}
-                                                onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                    <div className="grid grid-cols-2 gap-4">
+                        <FormField
+                            control={form.control}
+                            name="price"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Price</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="number"
+                                            placeholder="Product Price"
+                                            step="0.01"
+                                            min="0.1"
+                                            {...field}
+                                            onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                            <FormField
-                                control={form.control}
-                                name="expense"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Cost</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                type="number"
-                                                placeholder="Product Cost"
-                                                step="0.01"
-                                                min="0.1"
-                                                {...field}
-                                                onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
+                        <FormField
+                            control={form.control}
+                            name="expense"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Cost</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="number"
+                                            placeholder="Product Cost"
+                                            step="0.01"
+                                            min="0.1"
+                                            {...field}
+                                            onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                     </div>
 
                     <Button type="submit" className="bg-purple-2 text-white">

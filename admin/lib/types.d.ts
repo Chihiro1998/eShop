@@ -7,8 +7,9 @@ export type ProductType = {
 };
 
 export type CollectionType = {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   image: string;
+  products: string[];
 };

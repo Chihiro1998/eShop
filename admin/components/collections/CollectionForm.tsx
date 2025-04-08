@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Separator } from "../ui/separator";
 import { Button } from "@/components/ui/button";
+import Delete from "../custom ui/Delete";
+import { useParams } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -26,10 +28,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { X } from "lucide-react";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { CollectionType } from "@/lib/types";
 
 const formSchema = z.object({
   title: z.string().min(2).max(50),
-  description: z.string().min(2).max(500).trim(),
+  description: z.string().max(500).trim().optional(),
   image: z.string(),
   products: z.array(z.string()),
 });
@@ -39,8 +44,13 @@ const pacifico = Pacifico({
   subsets: ["latin"],
 });
 
-const CollectionForm = () => {
+interface CollectionFormProps {
+  initalData?: CollectionType | null;
+}
+const CollectionForm: React.FC<CollectionFormProps> = ({ initalData }) => {
   const [products, setProducts] = useState([]);
+  const router = useRouter();
+  const params = useParams();
 
   useEffect(() => {
     const getProducts = async () => {
@@ -58,16 +68,23 @@ const CollectionForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      image: "",
-      products: [],
+      title: initalData?.title || "",
+      description: initalData?.description || "",
+      image: initalData?.image || "",
+      products: initalData?.products || [],
     },
   });
+  const handlekeyPress = (e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+    }
+  }
+
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const res = await fetch("/api/collections", {
+      const url = initalData ? `/api/collections/${initalData._id}` : "/api/collections";
+      const res = await fetch(url, {
         method: "POST",
         body: JSON.stringify(values),
       });
@@ -77,16 +94,26 @@ const CollectionForm = () => {
       const data = await res.json();
       console.log("Collection created:", data);
       form.reset();
+      toast.success(`Collection ${initalData ? "updated" : "created"} successfully`);
+      window.location.href = `/collections`;
+      // router.push("/collections");
     } catch (err) {
+      toast.error(`Failed to ${initalData ? "update" : "create"} collection. Please try again.`);
       console.log("[collection_POST]", err);
     }
   };
 
   return (
     <div className="p-10">
-      <p className={`${pacifico.className} text-[32px] text-purple-1 mb-2`}>
+      {initalData ? (
+        <div className="flex justify-between items-center">
+          <p className={`${pacifico.className} text-[32px] text-purple-1 mb-2`}>Edit Collection</p>
+          <Delete id={initalData._id} />
+        </div>
+      ) : (<p className={`${pacifico.className} text-[32px] text-purple-1 mb-2`}>
         Create Your Collections
-      </p>
+      </p>)}
+
       <p className="text-body-medium text-grey-1 mb-6">
         Collections help your customers find exactly what they're looking for —
         whether it's seasonal items, promotions, or specific categories.
@@ -101,7 +128,7 @@ const CollectionForm = () => {
               <FormItem>
                 <FormLabel>Title*</FormLabel>
                 <FormControl>
-                  <Input placeholder="Title" {...field} />
+                  <Input placeholder="Title" {...field} onKeyDown={handlekeyPress} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -114,7 +141,7 @@ const CollectionForm = () => {
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Textarea {...field} rows={5} />
+                  <Textarea {...field} rows={5} onKeyDown={handlekeyPress} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -192,8 +219,12 @@ const CollectionForm = () => {
             )}
           />
 
-          <Button type="submit" className="bg-purple-2 text-white">
-            Create Collection
+
+          <Button type="submit" className="bg-purple-2 text-white mr-10">
+            {initalData ? "Update Collection" : "Create Collection"}
+          </Button>
+          <Button type="button" className="bg-red-500 text-white ml-10 " onClick={() => router.push("/collections")}>
+            Discard
           </Button>
         </form>
       </Form>
