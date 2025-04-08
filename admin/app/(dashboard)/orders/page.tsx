@@ -37,7 +37,7 @@ export default function Orders() {
         <p className={`${pacifico.className} text-[32px] text-purple-1 mb-2`}>Orders</p>
       </div>
       <Separator className="bg-grey-1 mt-4" />
-      <DataTable columns={columns} data={orders} searchKey="user" />
+      <DataTable columns={columns} data={orders} searchKey="_id" />
     </div>
   );
 }

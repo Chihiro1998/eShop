@@ -26,6 +26,13 @@ export type OrderType = {
     productId: string;
     quantity: number;
     price: number;
+    product?: {
+      id: string;
+      title: string;
+      media: string[];
+      description: string;
+      price: number;
+    };
   }[];
   amount: number;
   createdAt: Date;
@@ -46,4 +53,19 @@ export type UserType = {
   }[];
   createdAt: Date;
   updatedAt: Date;
+};
+
+
+export type OrderColumnsType = {
+  _id: string;
+  user: string;
+  products: number;
+  amount: number;
+  createdAt: string;
+};
+
+export type OrderItemType = {
+  product: ProductType;
+  quantity: number;
+  price: number;
 };
