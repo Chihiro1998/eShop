@@ -2,6 +2,7 @@
 
 import { SignOutButton, useUser } from "@clerk/nextjs";
 import { useState } from "react";
+import MyProfileSection from "./MyProfileSection";
 import Wishlist from "./WishlistSection";
 
 const AccountPage = () => {
@@ -67,6 +68,7 @@ const AccountPage = () => {
         {/* Content Area */}
         <div className="flex-1">
           {activeTab === "wishlist" && <Wishlist />}
+          {activeTab === "profile" && <MyProfileSection />}
           {activeTab === "overview" && (
             <div>
               <h2 className="text-2xl font-[Pacifico] text-purple-1 mb-4">
