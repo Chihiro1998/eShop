@@ -1,6 +1,7 @@
 "use client";
 
 import ProductCard from "@/components/product/ProductCard";
+import useWishlist from "@/lib/hooks/useWishlist";
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 
@@ -15,6 +16,7 @@ const WishlistPage = () => {
   const { isSignedIn } = useUser();
   const [wishlist, setWishlist] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const { wishlistIds } = useWishlist();
 
   useEffect(() => {
     const fetchWishlist = async () => {
@@ -65,7 +67,7 @@ const WishlistPage = () => {
               title={product.title}
               price={product.price}
               imageUrl={product.media?.[0] || "/placeholder.jpg"}
-              initialLiked={true}
+              initialLiked={wishlistIds.includes(product._id)}
             />
           ))}
         </div>
