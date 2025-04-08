@@ -1,5 +1,6 @@
 "use client";
 
+import useWishlist from "@/lib/hooks/useWishlist";
 import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 
@@ -18,6 +19,8 @@ const CategoryProductList = ({
 }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const { wishlistIds, refreshWishlist } = useWishlist();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -61,6 +64,8 @@ const CategoryProductList = ({
               title={product.title}
               price={product.price}
               imageUrl={product.media?.[0] || "/placeholder.jpg"}
+              initialLiked={wishlistIds.includes(product._id)}
+              onToggle={() => refreshWishlist()}
             />
           ))}
         </div>

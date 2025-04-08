@@ -11,26 +11,31 @@ interface ProductCardProps {
   title: string;
   imageUrl: string;
   price: number;
+  initialLiked?: boolean;
+  onToggle?: (id: string, newState: boolean) => void;
 }
 
-const ProductCard = ({ id, title, imageUrl, price }: ProductCardProps) => {
-  const [liked, setLiked] = useState(false);
+const ProductCard = ({
+  id,
+  title,
+  imageUrl,
+  price,
+  initialLiked = false,
+  onToggle,
+}: ProductCardProps) => {
+  const [liked, setLiked] = useState(initialLiked);
   const { isSignedIn } = useUser();
 
   useEffect(() => {
-    if (!isSignedIn) {
-      const local = localStorage.getItem("wishlist") || "[]";
-      const parsed = JSON.parse(local);
-      if (parsed.includes(id)) {
-        setLiked(true);
-      }
-    }
-  }, [id, isSignedIn]);
+    setLiked(initialLiked);
+  }, [initialLiked]);
 
   const toggleWishlist = async () => {
-    try {
-      setLiked((prev) => !prev);
+    const newState = !liked;
+    setLiked(newState);
+    onToggle?.(id, newState);
 
+    try {
       if (isSignedIn) {
         const res = await fetch(`/api/wishlist/${id}`, {
           method: "POST",
@@ -40,19 +45,15 @@ const ProductCard = ({ id, title, imageUrl, price }: ProductCardProps) => {
           console.error("Failed to update wishlist");
         }
       } else {
-        const existing = localStorage.getItem("wishlist") || "[]";
-        let parsed = JSON.parse(existing);
+        const local = JSON.parse(localStorage.getItem("wishlist") || "[]");
+        const updated = newState
+          ? [...new Set([...local, id])]
+          : local.filter((pid: string) => pid !== id);
 
-        if (liked) {
-          parsed = parsed.filter((pid: string) => pid !== id);
-        } else {
-          parsed.push(id);
-        }
-
-        localStorage.setItem("wishlist", JSON.stringify(parsed));
+        localStorage.setItem("wishlist", JSON.stringify(updated));
       }
     } catch (err) {
-      console.error("Error:", err);
+      console.error("Error updating wishlist", err);
     }
   };
 

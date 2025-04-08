@@ -49,7 +49,7 @@ const WishlistPage = () => {
   return (
     <section className="px-6 py-10 max-w-7xl mx-auto">
       <h1 className="text-3xl font-semibold text-purple-1 mb-8">
-        💜My Wishlist
+        💜 My Wishlist
       </h1>
 
       {loading ? (
@@ -65,6 +65,7 @@ const WishlistPage = () => {
               title={product.title}
               price={product.price}
               imageUrl={product.media?.[0] || "/placeholder.jpg"}
+              initialLiked={true}
             />
           ))}
         </div>
