@@ -50,7 +50,7 @@ const WishlistPage = () => {
 
   return (
     <section className="px-6 py-10 max-w-7xl mx-auto">
-      <h1 className="text-3xl font-semibold text-purple-1 mb-8">
+      <h1 className="text-3xl font-[Pacifico] text-purple-1 mb-8">
         💜 My Wishlist
       </h1>
 

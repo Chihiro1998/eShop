@@ -13,7 +13,6 @@ const Header = () => {
 
   const toggleUserMenu = () => setShowUserMenu(!showUserMenu);
 
-  // ✅ 登录后清除 guest wishlist
   useEffect(() => {
     if (isSignedIn) {
       localStorage.removeItem("wishlist");
