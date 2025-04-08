@@ -16,28 +16,33 @@ import { toast } from "react-hot-toast"
 
 interface DeleteProps {
   id: string
+  type: "collection" | "product"
 }
-const Delete = ({ id }: DeleteProps) => {
+
+const Delete = ({ id, type }: DeleteProps) => {
   const [loading, setLoading] = useState(false)
 
   const handleDelete = async () => {
     try {
       setLoading(true)
-      console.log("Deleting collection", id) //这里还是只能delete collection
-      const res = await fetch(`/api/collections/${id}`, {
+      const endpoint = type === "collection" ? `/api/collections/${id}` : `/api/products/${id}`
+      const res = await fetch(endpoint, {
         method: "DELETE",
       })
+
       if (!res.ok) {
-        throw new Error("Failed to delete collection")
+        console.log("res", res)
+        throw new Error(`Failed to delete ${type}`)
       }
-      window.location.href = "/collections" //refresh the page
-      toast.success("Collection deleted successfully")
+      window.location.href = type === "collection" ? "/collections" : "/products"
+      toast.success(`${type.charAt(0).toUpperCase() + type.slice(1)} deleted successfully`)
       setLoading(false)
     } catch (error) {
-      toast.error("Failed to delete collection")
+      toast.error(`Failed to delete ${type}`)
       console.error(error)
     }
   }
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -49,7 +54,7 @@ const Delete = ({ id }: DeleteProps) => {
         <AlertDialogHeader>
           <AlertDialogTitle className="text-red-1">Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your Collection.
+            This action cannot be undone. This will permanently delete your {type.charAt(0).toUpperCase() + type.slice(1)}.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -58,7 +63,6 @@ const Delete = ({ id }: DeleteProps) => {
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-
   )
 }
 

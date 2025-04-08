@@ -26,8 +26,10 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { X } from "lucide-react";
-import BackButton from "../custom ui/BackButton";
-
+import Delete from "../custom ui/Delete";
+import { ProductType } from "@/lib/types";
+import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 const categories = [
     "Sweatshirt",
     "Shirt",
@@ -45,7 +47,7 @@ const formSchema = z.object({
     title: z.string().min(2).max(50),
     description: z.string().min(2).max(500).trim(),
     media: z.array(z.string()),
-    category: z.string(),
+    category: z.array(z.string()),
     collections: z.array(z.string()),
     tags: z.array(z.string()),
     sizes: z.array(z.string()),
@@ -58,59 +60,96 @@ const pacifico = Pacifico({
     subsets: ["latin"],
 });
 
-const ProductForm = () => {
+interface ProductFormProps {
+    initalData?: ProductType | null;
+}
+
+const ProductForm: React.FC<ProductFormProps> = ({ initalData }) => {
+    const router = useRouter();
+    const handleImageUpload = (url: string) => {
+        const currentMedia = form.getValues('media');
+        form.setValue('media', [...currentMedia, url], {
+            shouldValidate: true,
+            shouldDirty: true,
+            shouldTouch: true
+        });
+    }
+    const handleImageRemove = (url: string) => {
+        const currentMedia = form.getValues('media');
+        form.setValue('media', currentMedia.filter(m => m !== url), {
+            shouldValidate: true,
+            shouldDirty: true,
+            shouldTouch: true
+        });
+    }
+
+
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            title: "",
-            description: "",
-            media: [],
-            category: "",
-            collections: [],
-            tags: [],
-            sizes: [],
-            price: 0,
-            expense: 0
+            title: initalData?.title || "",
+            description: initalData?.description || "",
+            media: initalData?.media || [],
+            category: initalData?.category || [],
+            collections: initalData?.collections || [],
+            tags: initalData?.tags || [],
+            sizes: initalData?.sizes || [],
+            price: initalData?.price || 0,
+            expense: initalData?.expense || 0
         },
     });
+    const handlekeyPress = (e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+        }
+    }
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            console.log(values);
-            console.log(values.media);
-            const res = await fetch("/api/products", {
+            const url = initalData ? `/api/products/${initalData.id}` : "/api/products";
+            console.log("url", url);
+            const res = await fetch(url, {
                 method: "POST",
                 body: JSON.stringify(values),
             });
-
+            console.log("res", res);
             if (!res.ok) {
-                throw new Error("Failed to create product");
+                throw new Error(`Failed to ${initalData ? "update" : "create"} product`);
             }
 
             const data = await res.json();
             console.log("Product created:", data);
-            form.reset({
-                title: "",
-                description: "",
-                media: [],
-                category: "",
-                collections: [],
-                tags: [],
-                sizes: [],
-                price: 0,
-                expense: 0
-            });
+            toast.success(`Product ${initalData ? "updated" : "created"} successfully`);
+            window.location.href = `/products`;
+            // form.reset({
+            //     title: "",
+            //     description: "",
+            //     media: [],
+            //     category: [],
+            //     collections: [],
+            //     tags: [],
+            //     sizes: [],
+            //     price: 0,
+            //     expense: 0
+            // });
         } catch (err) {
+            toast.error(`Failed to ${initalData ? "update" : "create"} product. Please try again.`);
             console.log("[product_POST]", err);
         }
     };
 
     return (
         <div className="p-10">
-            <BackButton />
-            <p className={`${pacifico.className} text-[32px] text-purple-1 mb-2`}>Create Product</p>
+            {initalData ? (
+                <div className="flex justify-between items-center">
+                    <p className={`${pacifico.className} text-[32px] text-purple-1 mb-2`}>Edit Product</p>
+                    <Delete id={initalData.id} type="product" />
+                </div>
+            ) : (<p className={`${pacifico.className} text-[32px] text-purple-1 mb-2`}>Create Product</p>)}
+
             <p className="text-body-medium text-grey-1 mb-6 ">
-                Create a new product to start selling
+                {initalData ? "Edit a product to start selling" : "Create a new product to start selling"}
             </p>
             <Separator className="bg-grey-1 mt-4 mb-7" />
             <Form {...form}>
@@ -123,7 +162,7 @@ const ProductForm = () => {
                                 <FormItem>
                                     <FormLabel>Title*</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Product Name" {...field} />
+                                        <Input placeholder="Product Name" {...field} onKeyDown={handlekeyPress} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -136,7 +175,13 @@ const ProductForm = () => {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Category*</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <Select
+                                        onValueChange={(value) => {
+                                            if (!field.value.includes(value)) {
+                                                field.onChange([...field.value, value]);
+                                            }
+                                        }}
+                                    >
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select a category" />
@@ -150,6 +195,23 @@ const ProductForm = () => {
                                             ))}
                                         </SelectContent>
                                     </Select>
+                                    <div className="flex flex-wrap gap-2 mt-2">
+                                        {field.value.map((category) => (
+                                            <div
+                                                key={category}
+                                                className="bg-purple-2 text-white px-2 py-1 rounded-md flex items-center gap-1"
+                                            >
+                                                {category}
+                                                <button
+                                                    type="button"
+                                                    onClick={() => field.onChange(field.value.filter(c => c !== category))}
+                                                    className="hover:text-red-500"
+                                                >
+                                                    <X className="h-3 w-3" />
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -181,21 +243,10 @@ const ProductForm = () => {
                                         <ImageUpload
                                             value={field.value}
                                             onChange={(url) => {
-                                                form.setValue('media', [...field.value, url], {
-                                                    shouldValidate: true,
-                                                    shouldDirty: true,
-                                                    shouldTouch: true
-                                                });
+                                                handleImageUpload(url)
                                             }}
                                             onRemove={(url) => {
-                                                form.setValue('media',
-                                                    field.value.filter((current) => current !== url),
-                                                    {
-                                                        shouldValidate: true,
-                                                        shouldDirty: true,
-                                                        shouldTouch: true
-                                                    }
-                                                );
+                                                handleImageRemove(url)
                                             }}
                                         />
                                     </div>
@@ -353,7 +404,10 @@ const ProductForm = () => {
                     </div>
 
                     <Button type="submit" className="bg-purple-2 text-white">
-                        Create Product
+                        {initalData ? "Update Product" : "Create Product"}
+                    </Button>
+                    <Button type="button" className="bg-red-500 text-white ml-10 " onClick={() => router.push("/products")}>
+                        Discard
                     </Button>
                 </form>
             </Form>

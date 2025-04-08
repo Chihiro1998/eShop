@@ -4,6 +4,11 @@ export type ProductType = {
   description: string;
   media: string[];
   category: string[];
+  collections: string[];
+  tags: string[];
+  sizes: string[];
+  price: number;
+  expense: number;
 };
 
 export type CollectionType = {

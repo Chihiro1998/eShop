@@ -29,8 +29,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 src={url}
                 alt="product"
                 className="object-cover rounded-lg"
-                width={600}
-                height={400}
+                width={100}
+                height={100}
               />
             </div>
             <button

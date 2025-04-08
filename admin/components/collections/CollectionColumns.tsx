@@ -42,10 +42,7 @@ export const columns: ColumnDef<CollectionType>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-
-      return (
-        <Delete id={row.original._id} />
-      )
+      return <Delete id={row.original._id} type="collection" />
     },
   },
 ]

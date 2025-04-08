@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { ProductType } from "@/lib/types"
 import Delete from "../custom ui/Delete"
 import Image from "next/image"
+import Link from "next/link"
 
 //columns definition
 
@@ -12,7 +13,12 @@ export const columns: ColumnDef<ProductType>[] = [
     accessorKey: "title",
     header: "Title",
     cell: ({ row }) => {
-      return <p className="text-sm font-medium">{row.original.title}</p>
+      return (
+        <Link href={`/products/${row.original.id}`} className="hover:text-red-1">
+          <p className="text-sm font-medium">{row.original.title}</p>
+        </Link>
+      )
+
     },
   },
   {
@@ -44,7 +50,7 @@ export const columns: ColumnDef<ProductType>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      return <Delete id={row.original.id} />
+      return <Delete id={row.original.id} type="product" />
     },
   }
 ]

@@ -89,7 +89,7 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initalData }) => {
         body: JSON.stringify(values),
       });
       if (!res.ok) {
-        throw new Error("Failed to create collection");
+        throw new Error(`Failed to ${initalData ? "update" : "create"} collection`);
       }
       const data = await res.json();
       console.log("Collection created:", data);
@@ -108,7 +108,7 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initalData }) => {
       {initalData ? (
         <div className="flex justify-between items-center">
           <p className={`${pacifico.className} text-[32px] text-purple-1 mb-2`}>Edit Collection</p>
-          <Delete id={initalData._id} />
+          <Delete id={initalData._id} type="collection" />
         </div>
       ) : (<p className={`${pacifico.className} text-[32px] text-purple-1 mb-2`}>
         Create Your Collections
