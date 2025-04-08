@@ -3,7 +3,7 @@
 import { SignOutButton, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiHeart, FiSearch, FiShoppingCart, FiUser } from "react-icons/fi";
 
 const Header = () => {
@@ -12,6 +12,13 @@ const Header = () => {
   const { isSignedIn } = useUser();
 
   const toggleUserMenu = () => setShowUserMenu(!showUserMenu);
+
+  // ✅ 登录后清除 guest wishlist
+  useEffect(() => {
+    if (isSignedIn) {
+      localStorage.removeItem("wishlist");
+    }
+  }, [isSignedIn]);
 
   return (
     <header className="sticky top-0 bg-white shadow z-50 font-roboto">
@@ -69,6 +76,12 @@ const Header = () => {
                     >
                       Account
                     </Link>
+                    <Link
+                      href="/wishlist"
+                      className="py-1 text-sm text-gray-700 flex items-center gap-1"
+                    >
+                      <FiHeart className="text-purple-1" /> Your Wishlist
+                    </Link>
                     <SignOutButton>
                       <span className="py-1 text-sm text-gray-700 cursor-pointer block">
                         Log Out
@@ -89,12 +102,12 @@ const Header = () => {
                     >
                       Register
                     </Link>
-
                     <Link
                       href="/wishlist"
                       className="py-1 text-sm text-gray-700 flex items-center gap-1"
                     >
-                      <FiHeart className="text-purple-1" /> Wishlist
+                      <FiHeart className="text-purple-1" />
+                      Wishlist
                     </Link>
                   </>
                 )}
