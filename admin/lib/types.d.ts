@@ -30,3 +30,20 @@ export type OrderType = {
   amount: number;
   createdAt: Date;
 };
+
+export type UserType = {
+  id: string;
+  clerkId: string;
+  wishlist: string[];
+  addresses: {
+    fullName: string;
+    phone: string;
+    street: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country: string;
+  }[];
+  createdAt: Date;
+  updatedAt: Date;
+};
