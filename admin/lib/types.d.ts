@@ -18,3 +18,15 @@ export type CollectionType = {
   image: string;
   products: string[];
 };
+
+export type OrderType = {
+  _id: string;
+  user: string;
+  items: {
+    productId: string;
+    quantity: number;
+    price: number;
+  }[];
+  amount: number;
+  createdAt: Date;
+};

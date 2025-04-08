@@ -16,7 +16,7 @@ import { toast } from "react-hot-toast"
 
 interface DeleteProps {
   id: string
-  type: "collection" | "product"
+  type: "collection" | "product" | "user" | "order"
 }
 
 const Delete = ({ id, type }: DeleteProps) => {
@@ -25,7 +25,21 @@ const Delete = ({ id, type }: DeleteProps) => {
   const handleDelete = async () => {
     try {
       setLoading(true)
-      const endpoint = type === "collection" ? `/api/collections/${id}` : `/api/products/${id}`
+      let endpoint = "";
+      switch (type) {
+        case "collection":
+          endpoint = `/api/collections/${id}`;
+          break;
+        case "product":
+          endpoint = `/api/products/${id}`;
+          break;
+        case "user":
+          endpoint = `/api/users/${id}`;
+          break;
+        case "order":
+          endpoint = `/api/orders/${id}`;
+          break;
+      }
       const res = await fetch(endpoint, {
         method: "DELETE",
       })
@@ -34,7 +48,22 @@ const Delete = ({ id, type }: DeleteProps) => {
         console.log("res", res)
         throw new Error(`Failed to delete ${type}`)
       }
-      window.location.href = type === "collection" ? "/collections" : "/products"
+      let redirectPath = "";
+      switch (type) {
+        case "collection":
+          redirectPath = "/collections";
+          break;
+        case "product":
+          redirectPath = "/products";
+          break;
+        case "user":
+          redirectPath = "/users";
+          break;
+        case "order":
+          redirectPath = "/orders";
+          break;
+      }
+      window.location.href = redirectPath;
       toast.success(`${type.charAt(0).toUpperCase() + type.slice(1)} deleted successfully`)
       setLoading(false)
     } catch (error) {
