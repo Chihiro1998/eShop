@@ -29,14 +29,13 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased `}
         >
           <ToasterProvider />
           <NavBar />
           <div className="flex max-lg:flex-col text-purple-2">
             <LeftSideBar />
-
-            <div className="purple-2">{children}</div>
+            <div className="flex-1 w-full bg-gray-50">{children}</div>
           </div>
         </body>
       </html>

@@ -47,7 +47,7 @@ export function DataTable<TData, TValue>({
 
 
   return (
-    <div className="py-5">
+    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 ">
       <div className="flex items-center py-4">
         <Input
           placeholder="Search..."
@@ -85,6 +85,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className="hover:bg-purple-1/10"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

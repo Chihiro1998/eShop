@@ -75,7 +75,7 @@ const Delete = ({ id, type }: DeleteProps) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button className="text-red-500 rounded-full">
+        <Button className="text-red-500 rounded-full hover:bg-red-500 hover:text-white">
           <Trash2 className="h-4 w-4" />
         </Button>
       </AlertDialogTrigger>

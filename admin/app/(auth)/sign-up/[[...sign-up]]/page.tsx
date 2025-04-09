@@ -2,7 +2,7 @@
 import { SignUp } from "@clerk/nextjs";
 import { Pacifico, Roboto } from "next/font/google";
 
-// 引入字体
+
 const pacifico = Pacifico({
   weight: "400",
   subsets: ["latin"],

@@ -36,7 +36,7 @@ export default function Customers() {
       <div className="flex justify-between items-center">
         <p className={`${pacifico.className} text-[32px] text-purple-1 mb-2`}>Customers</p>
       </div>
-      <Separator className="bg-grey-1 mt-4" />
+      <Separator className="bg-grey-1 mt-4 mb-7" />
       <DataTable columns={columns} data={users} searchKey="clerkId" />
     </div>
   );

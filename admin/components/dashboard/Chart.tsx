@@ -1,25 +1,53 @@
 "use client"
 
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 
-const salesData = [
-  { month: 'Jan', sales: 2000 },
-  { month: 'Feb', sales: 3400 },
-  { month: 'Mar', sales: 4800 },
-  { month: 'Apr', sales: 4000 },
-  { month: 'May', sales: 6500 },
-];
+interface ChartData {
+  month: string;
+  sales: number;
+  profit?: number;
+}
 
-const Chart = () => {
+const Chart = ({ data }: { data: ChartData[] }) => {
+  const [showProfit, setShowProfit] = useState(false);
+  const profitClassname = showProfit ? "bg-purple-2 text-white hover:bg-purple-1" : "bg-white text-purple-2 hover:bg-purple-1";
+  const salesClassname = !showProfit ? "bg-purple-2 text-white hover:bg-purple-1" : "bg-white text-purple-2 hover:bg-purple-1";
+
+
   return (
     <div className="bg-white p-6 rounded-3xl border border-grey-1 shadow-md mt-6">
-      <h2 className="text-xl font-semibold mb-4">Sales Overview</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold">Sales Overview</h2>
+        <div className="flex gap-2">
+          <Button
+            variant={!showProfit ? "default" : "outline"}
+            onClick={() => setShowProfit(false)}
+            className={salesClassname}
+          >
+            Sales
+          </Button>
+          <Button
+            variant={showProfit ? "default" : "outline"}
+            onClick={() => setShowProfit(true)}
+            className={profitClassname}
+          >
+            Profit
+          </Button>
+        </div>
+      </div>
       <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={salesData}>
+        <LineChart data={data}>
           <XAxis dataKey="month" />
           <YAxis />
           <Tooltip />
-          <Line type="monotone" dataKey="sales" stroke="#8884d8" strokeWidth={2} />
+          <Line
+            type="monotone"
+            dataKey={showProfit ? "profit" : "sales"}
+            stroke="#8884d8"
+            strokeWidth={2}
+          />
         </LineChart>
       </ResponsiveContainer>
     </div>

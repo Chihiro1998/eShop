@@ -53,7 +53,7 @@ const Collections = function () {
           Create Collection
         </Button>
       </div>
-      <Separator className="bg-grey-1 mt-4" />
+      <Separator className="bg-grey-1 mt-4 mb-7" />
       <DataTable columns={columns} data={collections} searchKey="title" />
     </div>
   );
