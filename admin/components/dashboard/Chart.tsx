@@ -3,6 +3,7 @@
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { memo } from 'react';
 
 interface ChartData {
   month: string;
@@ -10,11 +11,10 @@ interface ChartData {
   profit?: number;
 }
 
-const Chart = ({ data }: { data: ChartData[] }) => {
+const Chart = memo(({ data }: { data: ChartData[] }) => {
   const [showProfit, setShowProfit] = useState(false);
   const profitClassname = showProfit ? "bg-purple-2 text-white hover:bg-purple-1" : "bg-white text-purple-2 hover:bg-purple-1";
   const salesClassname = !showProfit ? "bg-purple-2 text-white hover:bg-purple-1" : "bg-white text-purple-2 hover:bg-purple-1";
-
 
   return (
     <div className="bg-white p-6 rounded-3xl border border-grey-1 shadow-md mt-6">
@@ -52,6 +52,8 @@ const Chart = ({ data }: { data: ChartData[] }) => {
       </ResponsiveContainer>
     </div>
   )
-};
+});
+
+Chart.displayName = "Chart";
 
 export default Chart;

@@ -31,6 +31,8 @@ import { ProductType } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 const categories = [
+    "All Categories",
+    "New Arrivals",
     "Sweatshirt",
     "Shirt",
     "Knit",
