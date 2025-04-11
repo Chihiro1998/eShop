@@ -41,8 +41,8 @@ export type OrderType = {
 export type UserType = {
   id: string;
   clerkId: string;
-  wishlist: string[];
-  addresses: {
+  wishlist: ProductType[];
+  address: {
     fullName: string;
     phone: string;
     street: string;
@@ -50,7 +50,7 @@ export type UserType = {
     state: string;
     zipCode: string;
     country: string;
-  }[];
+  };
   createdAt: Date;
   updatedAt: Date;
 };

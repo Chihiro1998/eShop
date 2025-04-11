@@ -4,11 +4,16 @@ import { ColumnDef } from "@tanstack/react-table"
 import { UserType } from "@/lib/types"
 import { format } from "date-fns"
 import Delete from "../custom ui/Delete"
-
+import Link from "next/link"
 export const columns: ColumnDef<UserType>[] = [
   {
     accessorKey: "clerkId",
     header: "User ID",
+    cell: ({ row }) => {
+      return <Link
+        className="hover:text-red-1"
+        href={`/customers/${row.original.clerkId}`}>{row.original.clerkId}</Link>
+    }
   },
   {
     accessorKey: "wishlist",
