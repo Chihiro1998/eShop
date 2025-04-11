@@ -22,6 +22,15 @@ export type CollectionType = {
 export type OrderType = {
   _id: string;
   user: string;
+  address: {
+    fullName: string;
+    phone: string;
+    street: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country: string;
+  };
   items: {
     productId: string;
     quantity: number;

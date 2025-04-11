@@ -59,6 +59,22 @@ export default function OrderPage() {
             <p>Order ID: {order._id}</p>
             <p>User ID: {order.user}</p>
             <p>Created At: {format(new Date(order.createdAt), "yyyy-MM-dd HH:mm:ss")}</p>
+            <div className="space-y-2">
+              <h3 className="text-lg font-semibold">Address</h3>
+              {order.address && order.address.fullName ? (
+                <div className="space-y-2">
+                  <p><span className="font-semibold">Name:  </span>{order.address.fullName}</p>
+                  <p><span className="font-semibold">Phone:  </span>{order.address.phone}</p>
+                  <p><span className="font-semibold">Street: </span>{order.address.street}</p>
+                  <p><span className="font-semibold">City:  </span>{order.address.city}</p>
+                  <p><span className="font-semibold">State:  </span>{order.address.state}</p>
+                  <p><span className="font-semibold">Zip Code:  </span>{order.address.zipCode}</p>
+                  <p><span className="font-semibold">Country:  </span>{order.address.country}</p>
+                </div>
+              ) : (
+                <p>No address information</p>
+              )}
+            </div>
           </div>
           <div>
             <h3 className="text-lg font-semibold">Order Items</h3>

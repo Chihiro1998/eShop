@@ -51,7 +51,7 @@ export default function CustomerDetails() {
       <div className="grid grid-cols-2 gap-6">
         <div className="space-y-6">
           <div className="bg-white p-6 rounded-lg">
-            <h3 className="text-lg font-semibold mb-4">Order Information</h3>
+            <h3 className="text-lg font-semibold mb-4">Customer Information</h3>
             <div className="space-y-2">
               <p>User ID: {customer?.clerkId}</p>
               <p>Created At: {customer?.createdAt ? format(new Date(customer?.createdAt), "yyyy-MM-dd HH:mm:ss") : "N/A"}</p>

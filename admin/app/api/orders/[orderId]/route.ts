@@ -23,6 +23,11 @@ export const GET = async (req: NextRequest, { params }: { params: { orderId: str
     if (!order) {
       return new NextResponse("Order not found", { status: 404 })
     }
+    const user = await User.findOne({ clerkId: order.user })
+    if (!user) {
+      return new NextResponse("User not found", { status: 404 })
+    }
+    const address = user.addresses[0]
 
 
     const productIds = order.items.map(item => item.productId)
@@ -33,6 +38,7 @@ export const GET = async (req: NextRequest, { params }: { params: { orderId: str
 
     const enrichedOrder = {
       ...order.toObject(),
+      address: address,
       items: order.items.map((item: { productId: string; quantity: number; price: number }) => {
         const product = products.find(p => p._id.toString() === item.productId)
         return {
