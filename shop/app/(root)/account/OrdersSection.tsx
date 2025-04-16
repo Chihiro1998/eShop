@@ -16,7 +16,6 @@ interface OrderItem {
 
 interface Order {
   _id: string;
-  user: string;
   amount: number;
   createdAt: string;
   items: OrderItem[];
@@ -29,89 +28,92 @@ const OrdersSection = () => {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      if (!user?.id) return;
       try {
+        setLoading(true);
         const res = await fetch("/api/orders");
         const data = await res.json();
-        setOrders(data);
-      } catch (error) {
-        console.error("Failed to fetch orders:", error);
+        if (res.ok) {
+          setOrders(data);
+        } else {
+          console.error("Failed to fetch orders:", await res.text());
+        }
+      } catch (err) {
+        console.error("Fetch orders error:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchOrders();
-  }, [user?.id]);
+    if (user) fetchOrders();
+  }, [user]);
 
   return (
-    <section>
-      <h2 className="text-2xl font-[Pacifico] text-purple-1 mb-4">
-        🧾 My Order History
-      </h2>
-      <p className="text-gray-600 text-base mb-6">
-        Review your past purchases, view order IDs, and check details at a
-        glance.
+    <div>
+      <h2 className="text-2xl font-[Pacifico] text-purple-1 mb-4">My Orders</h2>
+      <p className="text-gray-500 text-base mb-6">
+        Review your past purchases and order details.
       </p>
 
       {loading ? (
-        <p className="text-gray-500">Loading your orders...</p>
+        <p className="text-gray-400">Loading orders...</p>
       ) : orders.length === 0 ? (
-        <p className="text-gray-500">You haven’t placed any orders yet.</p>
+        <p className="text-gray-400">You haven&apos;t placed any orders yet.</p>
       ) : (
-        <div className="space-y-8">
+        <div className="space-y-6">
           {orders.map((order) => (
             <div
               key={order._id}
-              className="border rounded-xl p-6 shadow-sm bg-white"
+              className="border rounded-lg p-4 shadow-sm bg-white"
             >
-              <div className="flex justify-between items-center mb-4">
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium text-purple-1">Order ID:</span>{" "}
-                  <span className="font-mono">{order._id}</span>
+              <div className="flex justify-between text-sm text-gray-500 mb-4">
+                <p>
+                  Order ID: <span className="font-mono">{order._id}</span>
                 </p>
-                <p className="text-sm text-gray-500">
-                  Placed on{" "}
-                  {new Date(order.createdAt).toLocaleDateString(undefined, {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  })}
-                </p>
+                <p>Date: {new Date(order.createdAt).toLocaleString()}</p>
               </div>
 
-              {order.items.map((item, index) => (
-                <div key={index} className="flex items-start gap-4 mb-4">
-                  <div className="w-20 h-20 relative">
-                    <Image
-                      src={item.product?.media?.[0] || "/placeholder.jpg"}
-                      alt={item.product?.title || "Product"}
-                      fill
-                      className="object-cover rounded"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-800">
-                      {item.product?.title || "Unnamed Product"}
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      Quantity: {item.quantity} × ${item.price.toFixed(2)}
-                    </p>
-                    <p className="text-sm font-semibold text-purple-1">
-                      Subtotal: ${(item.quantity * item.price).toFixed(2)}
-                    </p>
-                  </div>
-                </div>
-              ))}
+              <div className="space-y-6">
+                {order.items.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between gap-4"
+                  >
+                    {/* Image & Title */}
+                    <div className="flex items-center gap-4 flex-1">
+                      <div className="w-20 h-20 relative">
+                        <Image
+                          src={item.product?.media[0] || "/placeholder.jpg"}
+                          alt={item.product?.title || "Product"}
+                          fill
+                          className="object-cover rounded"
+                        />
+                      </div>
+                      <div className="text-base text-gray-800 font-medium">
+                        {item.product?.title || "Unnamed Product"}
+                      </div>
+                    </div>
 
-              <div className="mt-4 font-semibold text-purple-1 text-right">
+                    {/* Quantity & Subtotal */}
+                    <div className="text-right min-w-[120px]">
+                      <p className="text-gray-600 text-sm">
+                        Quantity: {item.quantity} × ${item.price.toFixed(2)}
+                      </p>
+                      <p className="text-purple-1 font-semibold text-sm mt-1">
+                        Subtotal: ${(item.quantity * item.price).toFixed(2)}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <p className="mt-4 font-semibold text-right text-purple-1">
                 Total: ${order.amount.toFixed(2)}
-              </div>
+              </p>
             </div>
           ))}
         </div>
       )}
-    </section>
+    </div>
   );
 };
 
