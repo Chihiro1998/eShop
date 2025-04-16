@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
     const enrichedOrders = await Promise.all(
       orders.map(async (order) => {
         const enrichedItems = await Promise.all(
-          order.items.map(async (item) => {
+          order.items.map(async (item: any) => {
             const product = await Product.findById(item.productId);
             return {
               ...item.toObject(),
