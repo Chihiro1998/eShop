@@ -8,7 +8,7 @@ import Wishlist from "./WishlistSection";
 
 const AccountPage = () => {
   const { user } = useUser();
-  const [activeTab, setActiveTab] = useState("overview");
+  const [activeTab, setActiveTab] = useState("profile");
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -27,12 +27,6 @@ const AccountPage = () => {
         {/* Sidebar */}
         <aside className="w-1/4 pr-6 border-r border-gray-300">
           <nav className="flex flex-col space-y-4 text-purple-1 font-medium">
-            <button
-              onClick={() => setActiveTab("overview")}
-              className="text-left  hover:text-purple-2"
-            >
-              Overview
-            </button>
             <button
               onClick={() => setActiveTab("profile")}
               className="text-left  hover:text-purple-2"
@@ -71,17 +65,6 @@ const AccountPage = () => {
           {activeTab === "wishlist" && <Wishlist />}
           {activeTab === "profile" && <MyProfileSection />}
           {activeTab === "orders" && <OrdersSection />}
-          {activeTab === "overview" && (
-            <div>
-              <h2 className="text-2xl font-[Pacifico] text-purple-1 mb-4">
-                💜Welcome to E-Shop, {user?.firstName || "User"}!
-              </h2>
-              <p className="text-gray-600">
-                This is your personal space. You can view and manage your
-                wishlist, orders, addresses, and more!
-              </p>
-            </div>
-          )}
         </div>
       </section>
     </div>

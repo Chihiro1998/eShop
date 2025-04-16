@@ -12,15 +12,15 @@ const MyProfileSection = () => {
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-[Pacifico] text-purple-1 mb-2">
-        My Profile
+        💜Welcome to E-Shop, {user?.firstName || "User"}!
       </h2>
+      <p className="text-gray-600">
+        This is your personal space. You can view and manage your wishlist,
+        orders, addresses, and more!
+      </p>
 
       {!showEditForm ? (
         <>
-          <p className="text-gray-600 text-base mb-6">
-            Manage your personal info and account settings here.
-          </p>
-
           <div className="flex items-center gap-6">
             <div>
               <p className="text-xl font-semibold">
