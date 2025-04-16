@@ -3,16 +3,17 @@
 import { SignOutButton, useUser } from "@clerk/nextjs";
 import { useState } from "react";
 import MyProfileSection from "./MyProfileSection";
+import OrdersSection from "./OrdersSection";
 import Wishlist from "./WishlistSection";
 
 const AccountPage = () => {
   const { user } = useUser();
-  const [activeTab, setActiveTab] = useState("wishlist");
+  const [activeTab, setActiveTab] = useState("overview");
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Banner */}
-      <div className="bg-purple-1 text-white py-20 px-6 rounded-2xl shadow-md mt-6 max-w-7xl mx-auto">
+      <div className="bg-purple-3 text-white py-20 px-6 rounded-2xl shadow-md mt-6 max-w-7xl mx-auto">
         <h1 className="text-4xl text-center font-[Pacifico]">
           ✨ Your Perfect Style is <br /> Just a Click Away! ✨
         </h1>
@@ -69,6 +70,7 @@ const AccountPage = () => {
         <div className="flex-1">
           {activeTab === "wishlist" && <Wishlist />}
           {activeTab === "profile" && <MyProfileSection />}
+          {activeTab === "orders" && <OrdersSection />}
           {activeTab === "overview" && (
             <div>
               <h2 className="text-2xl font-[Pacifico] text-purple-1 mb-4">

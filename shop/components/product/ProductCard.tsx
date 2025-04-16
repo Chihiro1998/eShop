@@ -83,7 +83,7 @@ const ProductCard = ({
         </div>
 
         <div className="p-4">
-          <h3 className="font-[Pacifico] text-lg text-black mb-1">{title}</h3>
+          <h3 className="font-[Roboto] text-base text-black mb-1">{title}</h3>
           <p className="text-base text-black font-medium">
             ${price.toFixed(2)}
           </p>
