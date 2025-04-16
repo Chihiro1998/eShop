@@ -2,6 +2,7 @@
 
 import { SignOutButton, useUser } from "@clerk/nextjs";
 import { useState } from "react";
+import AddressBookSection from "./AddressBookSection";
 import MyProfileSection from "./MyProfileSection";
 import OrdersSection from "./OrdersSection";
 import Wishlist from "./WishlistSection";
@@ -65,6 +66,7 @@ const AccountPage = () => {
           {activeTab === "wishlist" && <Wishlist />}
           {activeTab === "profile" && <MyProfileSection />}
           {activeTab === "orders" && <OrdersSection />}
+          {activeTab === "addresses" && <AddressBookSection />}
         </div>
       </section>
     </div>
