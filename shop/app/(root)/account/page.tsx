@@ -15,7 +15,7 @@ const AccountPage = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Banner */}
       <div className="bg-purple-3 text-white py-20 px-6 rounded-2xl shadow-md mt-6 max-w-7xl mx-auto">
-        <h1 className="text-4xl text-center font-[Pacifico]">
+        <h1 className="text-4xl text-pink-1 text-center font-[Pacifico]">
           ✨ Your Perfect Style is <br /> Just a Click Away! ✨
         </h1>
         <p className="mt-2 text-center text-[1rem] text-gray-300">

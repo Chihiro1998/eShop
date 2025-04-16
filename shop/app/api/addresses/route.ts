@@ -9,9 +9,7 @@ export async function GET(req: NextRequest) {
     if (!userId) return new NextResponse("Unauthorized", { status: 401 });
 
     await connectToDatabase();
-
     const user = await User.findOne({ clerkId: userId });
-
     if (!user) return new NextResponse("User not found", { status: 404 });
 
     return NextResponse.json(user.addresses || []);
@@ -27,14 +25,12 @@ export async function POST(req: NextRequest) {
     if (!userId) return new NextResponse("Unauthorized", { status: 401 });
 
     const newAddress = await req.json();
-
     await connectToDatabase();
-
     const user = await User.findOne({ clerkId: userId });
     if (!user) return new NextResponse("User not found", { status: 404 });
 
     if (newAddress.isDefault) {
-      user.addresses.forEach((a: any) => (a.isDefault = false));
+      user.addresses.forEach((addr: any) => (addr.isDefault = false));
     }
 
     user.addresses.push(newAddress);
@@ -52,20 +48,20 @@ export async function PATCH(req: NextRequest) {
     const { userId } = getAuth(req);
     if (!userId) return new NextResponse("Unauthorized", { status: 401 });
 
-    const { index, data, setDefault } = await req.json();
-
+    const { index, setDefault, data } = await req.json();
     await connectToDatabase();
-
     const user = await User.findOne({ clerkId: userId });
     if (!user || !user.addresses[index])
       return new NextResponse("Address not found", { status: 404 });
 
-    if (data) {
-      Object.assign(user.addresses[index], data);
+    if (setDefault === true) {
+      user.addresses.forEach((a: any, i: number) => {
+        a.isDefault = i === index;
+      });
     }
 
-    if (setDefault) {
-      user.addresses.forEach((a: any, i: any) => (a.isDefault = i === index));
+    if (data) {
+      Object.assign(user.addresses[index], data);
     }
 
     await user.save();
@@ -82,9 +78,7 @@ export async function DELETE(req: NextRequest) {
     if (!userId) return new NextResponse("Unauthorized", { status: 401 });
 
     const { index } = await req.json();
-
     await connectToDatabase();
-
     const user = await User.findOne({ clerkId: userId });
     if (!user || !user.addresses[index])
       return new NextResponse("Address not found", { status: 404 });

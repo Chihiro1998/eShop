@@ -3,13 +3,15 @@
 import { SignOutButton, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FiHeart, FiSearch, FiShoppingCart, FiUser } from "react-icons/fi";
 
 const Header = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const [searchTerm, setSearchTerm] = useState("");
   const { isSignedIn } = useUser();
+  const router = useRouter();
 
   const toggleUserMenu = () => setShowUserMenu(!showUserMenu);
 
@@ -18,6 +20,16 @@ const Header = () => {
       localStorage.removeItem("wishlist");
     }
   }, [isSignedIn]);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchTerm.trim()) return;
+
+    const params = new URLSearchParams();
+    params.set("q", searchTerm.trim());
+
+    router.push(`/search?${params.toString()}`);
+  };
 
   return (
     <header className="sticky top-0 bg-white shadow z-50 font-roboto">
@@ -28,24 +40,17 @@ const Header = () => {
         </Link>
 
         {/* Search */}
-        <form className="flex items-center w-full max-w-xl bg-gray-100 px-4 py-2 rounded-full mx-6">
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="bg-transparent text-sm outline-none"
-          >
-            <option value="All Categories">All Categories</option>
-            <option value="Electronics">Electronics</option>
-            <option value="Books">Books</option>
-            <option value="Clothes">Clothes</option>
-          </select>
-
+        <form
+          onSubmit={handleSearch}
+          className="flex items-center w-full max-w-xl bg-gray-100 px-4 py-2 rounded-full mx-6"
+        >
           <input
             type="search"
             placeholder="Search on E-Shop..."
             className="flex-1 bg-transparent outline-none ml-4 text-sm"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
-
           <button type="submit" className="text-lg text-gray-600">
             <FiSearch />
           </button>

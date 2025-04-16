@@ -74,7 +74,7 @@ const AddressBookSection = () => {
       method: "PATCH",
       body: JSON.stringify({ index, setDefault: true }),
     });
-    fetchAddresses();
+    await fetchAddresses();
   };
 
   const handleDelete = async (index: number) => {
@@ -82,7 +82,7 @@ const AddressBookSection = () => {
       method: "DELETE",
       body: JSON.stringify({ index }),
     });
-    fetchAddresses();
+    await fetchAddresses();
   };
 
   const handleEdit = (index: number) => {
@@ -97,7 +97,7 @@ const AddressBookSection = () => {
       body: JSON.stringify({ index: editingIndex, data: editForm }),
     });
     setEditingIndex(null);
-    fetchAddresses();
+    await fetchAddresses();
   };
 
   if (loading) return <p className="text-gray-400">Loading addresses...</p>;
@@ -121,53 +121,41 @@ const AddressBookSection = () => {
           onSubmit={handleSubmit}
           className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-6 rounded shadow"
         >
-          <input
-            className="border p-2 rounded"
-            placeholder="Full Name"
-            value={form.fullName}
-            onChange={(e) => setForm({ ...form, fullName: e.target.value })}
-            required
-          />
-          <input
-            className="border p-2 rounded"
-            placeholder="Phone"
-            value={form.phone}
-            onChange={(e) => setForm({ ...form, phone: e.target.value })}
-          />
-          <input
-            className="border p-2 rounded"
-            placeholder="Street"
-            value={form.street}
-            onChange={(e) => setForm({ ...form, street: e.target.value })}
-            required
-          />
-          <input
-            className="border p-2 rounded"
-            placeholder="City"
-            value={form.city}
-            onChange={(e) => setForm({ ...form, city: e.target.value })}
-            required
-          />
-          <input
-            className="border p-2 rounded"
-            placeholder="State"
-            value={form.state}
-            onChange={(e) => setForm({ ...form, state: e.target.value })}
-            required
-          />
-          <input
-            className="border p-2 rounded"
-            placeholder="Zip Code"
-            value={form.zipCode}
-            onChange={(e) => setForm({ ...form, zipCode: e.target.value })}
-          />
-          <input
-            className="border p-2 rounded"
-            placeholder="Country"
-            value={form.country}
-            onChange={(e) => setForm({ ...form, country: e.target.value })}
-            required
-          />
+          {[
+            "Full Name",
+            "Phone",
+            "Street",
+            "City",
+            "State",
+            "Zip Code",
+            "Country",
+          ].map((label) => (
+            <input
+              key={label}
+              className="border p-2 rounded"
+              placeholder={label}
+              value={
+                form[
+                  (label.replace(" ", "").charAt(0).toLowerCase() +
+                    label.replace(" ", "").slice(1)) as keyof Address
+                ] as string
+              }
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  [label.replace(" ", "").charAt(0).toLowerCase() +
+                  label.replace(" ", "").slice(1)]: e.target.value,
+                })
+              }
+              required={[
+                "Full Name",
+                "Street",
+                "City",
+                "State",
+                "Country",
+              ].includes(label)}
+            />
+          ))}
           <label className="flex items-center gap-2 text-sm col-span-2">
             <input
               type="checkbox"
@@ -209,68 +197,42 @@ const AddressBookSection = () => {
           {addresses.map((address, index) => (
             <div
               key={index}
-              className={`border rounded-lg p-6 bg-white shadow-sm relative ${
-                address.isDefault ? "border-purple-500" : ""
+              className={`rounded-lg p-6 shadow-sm relative transition border ${
+                address.isDefault
+                  ? "bg-purple-100 border-purple-600"
+                  : "bg-white border-gray-200"
               }`}
             >
-              <h3 className="text-sm font-semibold uppercase mb-4 tracking-wider text-purple-1">
-                {address.isDefault ? "Default Address" : `Address ${index + 1}`}
-              </h3>
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-purple-1">
+                  {address.isDefault
+                    ? "Default Address"
+                    : `Address ${index + 1}`}
+                </h3>
+                {address.isDefault && (
+                  <span className="text-xs text-white bg-purple-700 px-2 py-0.5 rounded-full flex items-center gap-1">
+                    ✅ Default
+                  </span>
+                )}
+              </div>
 
               {editingIndex === index ? (
                 <form
                   onSubmit={handleEditSubmit}
                   className="space-y-2 text-sm text-gray-800 mb-4"
                 >
-                  <input
-                    className="w-full border p-1 rounded"
-                    value={editForm.fullName}
-                    onChange={(e) =>
-                      setEditForm({ ...editForm, fullName: e.target.value })
-                    }
-                  />
-                  <input
-                    className="w-full border p-1 rounded"
-                    value={editForm.phone}
-                    onChange={(e) =>
-                      setEditForm({ ...editForm, phone: e.target.value })
-                    }
-                  />
-                  <input
-                    className="w-full border p-1 rounded"
-                    value={editForm.street}
-                    onChange={(e) =>
-                      setEditForm({ ...editForm, street: e.target.value })
-                    }
-                  />
-                  <input
-                    className="w-full border p-1 rounded"
-                    value={editForm.city}
-                    onChange={(e) =>
-                      setEditForm({ ...editForm, city: e.target.value })
-                    }
-                  />
-                  <input
-                    className="w-full border p-1 rounded"
-                    value={editForm.state}
-                    onChange={(e) =>
-                      setEditForm({ ...editForm, state: e.target.value })
-                    }
-                  />
-                  <input
-                    className="w-full border p-1 rounded"
-                    value={editForm.zipCode}
-                    onChange={(e) =>
-                      setEditForm({ ...editForm, zipCode: e.target.value })
-                    }
-                  />
-                  <input
-                    className="w-full border p-1 rounded"
-                    value={editForm.country}
-                    onChange={(e) =>
-                      setEditForm({ ...editForm, country: e.target.value })
-                    }
-                  />
+                  {Object.entries(editForm).map(([key, value]) =>
+                    key === "isDefault" ? null : (
+                      <input
+                        key={key}
+                        className="w-full border p-1 rounded"
+                        value={value || ""}
+                        onChange={(e) =>
+                          setEditForm({ ...editForm, [key]: e.target.value })
+                        }
+                      />
+                    )
+                  )}
                   <div className="flex gap-2">
                     <button
                       type="submit"
@@ -289,7 +251,7 @@ const AddressBookSection = () => {
                 </form>
               ) : (
                 <>
-                  <div className="space-y-1 text-[16px] text-gray-800 mb-4">
+                  <div className="space-y-1 text-sm text-gray-800 mb-4">
                     <p>{address.fullName}</p>
                     {address.phone && <p>{address.phone}</p>}
                     <p>{address.street}</p>
@@ -312,7 +274,7 @@ const AddressBookSection = () => {
                     )}
                     <button
                       onClick={() => handleEdit(index)}
-                      className="text-sm border border-blue-400 px-4 py-1 rounded hover:bg-blue-500 hover:text-white"
+                      className="text-sm border border-purple-2 px-4 py-1 rounded hover:bg-purple-2 hover:text-white"
                     >
                       Edit
                     </button>
