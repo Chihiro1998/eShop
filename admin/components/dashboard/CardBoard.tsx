@@ -22,7 +22,7 @@ const CardBoard = async () => {
           {/* <span className="text-sm font-medium text-green-500">+12.5%</span> */}
         </div>
         <p className="text-gray-500 text-sm mb-1">Total Sales</p>
-        <h2 className="text-2xl font-bold text-gray-800">${totalRevenue}</h2>
+        <h2 className="text-2xl font-bold text-gray-800">${totalRevenue.toFixed(2)}</h2>
       </div>
 
       <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg hover:border-purple-1/20 hover:scale-[1.02] transition-all duration-300">
