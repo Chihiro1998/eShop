@@ -103,13 +103,13 @@ const AddressBookSection = () => {
   if (loading) return <p className="text-gray-400">Loading addresses...</p>;
 
   return (
-    <div>
+    <div className="max-w-4xl mx-auto p-4">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-[Pacifico] text-purple-1">Address Book</h2>
         {!showForm && (
           <button
             onClick={() => setShowForm(true)}
-            className="bg-purple-1 text-white px-6 py-2 rounded hover:bg-purple-2 transition"
+            className="bg-purple-3 text-white px-6 py-2 rounded hover:bg-purple-2 transition"
           >
             Add Address
           </button>
@@ -129,33 +129,27 @@ const AddressBookSection = () => {
             "State",
             "Zip Code",
             "Country",
-          ].map((label) => (
-            <input
-              key={label}
-              className="border p-2 rounded"
-              placeholder={label}
-              value={
-                form[
-                  (label.replace(" ", "").charAt(0).toLowerCase() +
-                    label.replace(" ", "").slice(1)) as keyof Address
-                ] as string
-              }
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  [label.replace(" ", "").charAt(0).toLowerCase() +
-                  label.replace(" ", "").slice(1)]: e.target.value,
-                })
-              }
-              required={[
-                "Full Name",
-                "Street",
-                "City",
-                "State",
-                "Country",
-              ].includes(label)}
-            />
-          ))}
+          ].map((label) => {
+            const key =
+              label.replace(" ", "").charAt(0).toLowerCase() +
+              label.replace(" ", "").slice(1);
+            return (
+              <input
+                key={label}
+                className="border p-2 rounded"
+                placeholder={label}
+                value={form[key as keyof Address] as string}
+                onChange={(e) => setForm({ ...form, [key]: e.target.value })}
+                required={[
+                  "Full Name",
+                  "Street",
+                  "City",
+                  "State",
+                  "Country",
+                ].includes(label)}
+              />
+            );
+          })}
           <label className="flex items-center gap-2 text-sm col-span-2">
             <input
               type="checkbox"
@@ -170,7 +164,7 @@ const AddressBookSection = () => {
             <button
               type="submit"
               disabled={submitting}
-              className="bg-purple-1 text-white py-2 px-6 rounded hover:bg-purple-2 transition"
+              className="bg-purple-3 text-white py-2 px-6 rounded hover:bg-purple-2 transition"
             >
               {submitting ? "Saving..." : "Save Address"}
             </button>
@@ -199,18 +193,18 @@ const AddressBookSection = () => {
               key={index}
               className={`rounded-lg p-6 shadow-sm relative transition border ${
                 address.isDefault
-                  ? "bg-purple-100 border-purple-600"
-                  : "bg-white border-gray-200"
+                  ? "bg-purple-1 text-white border-purple-1"
+                  : "bg-white text-purple-1 border-purple-1"
               }`}
             >
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-purple-1">
+                <h3 className="text-sm font-semibold uppercase tracking-wider">
                   {address.isDefault
                     ? "Default Address"
                     : `Address ${index + 1}`}
                 </h3>
                 {address.isDefault && (
-                  <span className="text-xs text-white bg-purple-700 px-2 py-0.5 rounded-full flex items-center gap-1">
+                  <span className="text-xs bg-white text-purple-1 px-2 py-0.5 rounded-full flex items-center gap-1">
                     ✅ Default
                   </span>
                 )}
@@ -219,7 +213,7 @@ const AddressBookSection = () => {
               {editingIndex === index ? (
                 <form
                   onSubmit={handleEditSubmit}
-                  className="space-y-2 text-sm text-gray-800 mb-4"
+                  className="space-y-2 text-sm mb-4"
                 >
                   {Object.entries(editForm).map(([key, value]) =>
                     key === "isDefault" ? null : (
@@ -236,7 +230,7 @@ const AddressBookSection = () => {
                   <div className="flex gap-2">
                     <button
                       type="submit"
-                      className="border border-purple-1 px-4 py-1 rounded hover:bg-purple-1 hover:text-white"
+                      className="border border-white bg-purple-1 text-white px-4 py-1 rounded hover:bg-purple-2"
                     >
                       Save
                     </button>
@@ -251,7 +245,7 @@ const AddressBookSection = () => {
                 </form>
               ) : (
                 <>
-                  <div className="space-y-1 text-sm text-gray-800 mb-4">
+                  <div className="space-y-1 text-sm mb-4">
                     <p>{address.fullName}</p>
                     {address.phone && <p>{address.phone}</p>}
                     <p>{address.street}</p>
@@ -267,20 +261,20 @@ const AddressBookSection = () => {
                     {!address.isDefault && (
                       <button
                         onClick={() => setAsDefault(index)}
-                        className="text-sm border border-purple-1 px-4 py-1 rounded hover:bg-purple-1 hover:text-white"
+                        className="text-sm border border-purple-1 text-purple-1 px-4 py-1 rounded hover:bg-purple-1 hover:text-white"
                       >
                         Set as Default
                       </button>
                     )}
                     <button
                       onClick={() => handleEdit(index)}
-                      className="text-sm border border-purple-2 px-4 py-1 rounded hover:bg-purple-2 hover:text-white"
+                      className="text-sm border border-purple-1 text-purple-1 px-4 py-1 rounded hover:bg-purple-1 hover:text-white"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDelete(index)}
-                      className="text-sm border border-red-400 px-4 py-1 rounded hover:bg-red-500 hover:text-white"
+                      className="text-sm border border-purple-1 text-purple-1 px-4 py-1 rounded hover:bg-purple-1 hover:text-white"
                     >
                       Delete
                     </button>
