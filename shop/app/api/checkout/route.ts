@@ -2,6 +2,7 @@ import Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/lib/mongoDB";
 import Order from "@/lib/models/Order";
+import  loadStripe  from "stripe";
 
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { typescript: true });

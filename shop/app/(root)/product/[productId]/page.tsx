@@ -6,7 +6,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FiShoppingCart } from "react-icons/fi";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import {FiShoppingCart} from "react-icons/fi";
 
 interface Product {
   _id: string;
@@ -34,6 +36,8 @@ const ProductDetailPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [showSuccess, setShowSuccess] = useState(false);
   const cart = useCart();
+  const { user } = useUser();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -51,8 +55,55 @@ const ProductDetailPage = () => {
     fetchProduct();
   }, [productId]);
 
-  if (loading) return <p className="p-10 text-purple-1">Loading...</p>;
-  if (!product) return <p className="p-10 text-red-500">Product not found.</p>;
+
+  const handleBuyItNow = async () => {
+    // Ensure the user is logged in.
+    if (!user) {
+      router.push("sign-in");
+      return;
+    }
+
+    // Ensure product is available before continuing.
+    if (!product) {
+      console.error("Product data not available");
+      return;
+    }
+
+    try {
+      // Prepare customer details using Clerk user id.
+      const customer = { clerkId: user.id };
+
+      // Create a checkout session with only this product.
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          // Send only a single item as the cartItems array.
+          cartItems: [{ item: product, quantity }],
+          customer: customer,
+        }),
+      });
+
+      const data = await res.json();
+
+      // Redirect the user to the Stripe Checkout URL.
+      window.location.href = data.url;
+    } catch (error) {
+      console.error("Error during checkout:", error);
+    }
+  };
+
+
+
+
+
+  if (loading) {
+    return <p className="p-10 text-purple-1">Loading...</p>;
+  }
+
+  if (!product) {
+    return <p className="p-10 text-red-500">Product not found.</p>;
+  }
 
   return (
     <div className="relative flex flex-col lg:flex-row max-w-7xl mx-auto px-6 py-10 gap-10">
@@ -127,7 +178,10 @@ const ProductDetailPage = () => {
           </p>
         </div>
 
-        <button className="bg-purple-1 text-white py-3 px-6 uppercase">
+        <button
+          onClick={handleBuyItNow}
+          className="bg-purple-1 text-white py-3 px-6 uppercase"
+        >
           Buy It Now
         </button>
 

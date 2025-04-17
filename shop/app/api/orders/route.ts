@@ -13,7 +13,6 @@ export async function GET(req: NextRequest) {
 
     const orders = await Order.find({ user: userId }).sort({ createdAt: -1 });
 
-    // enrich order items with product details
     const enrichedOrders = await Promise.all(
       orders.map(async (order) => {
         const enrichedItems = await Promise.all(
