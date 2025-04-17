@@ -26,6 +26,10 @@ const CategoryProductList = ({
   const { wishlistIds, refreshWishlist } = useWishlist();
 
   useEffect(() => {
+    setVisibleCount(PRODUCTS_PER_BATCH);
+  }, [selectedCategory]);
+
+  useEffect(() => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
@@ -40,7 +44,6 @@ const CategoryProductList = ({
               );
 
         setAllProducts(filtered);
-        setVisibleCount(PRODUCTS_PER_BATCH);
       } catch (err) {
         console.error("Failed to fetch products", err);
       } finally {
