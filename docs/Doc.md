@@ -1,6 +1,24 @@
+# E-Commerce Project Proposal
+
+- **Author:** Yuchen(Olivia) Kuang,Yantong Guo,Siyun Sun
+- **Date:** 2025/2/27
+
+---
+
+## Team
+
+- **Team Lead:** Yuchen Kuang
+- **Team Members:** Yantong Guo, Siyu Sun
+
+---
+
 ## Shop Part
 
-## New Functionality:
+### New Functionality:
+
+(Yuchen):
+
+(Siyu):
 
 - Allow users to add product to shopping cart
 - Allow users to increase and decrease quantity of products in the shopping cart as well as deleting a product in the shopping cart
@@ -10,19 +28,30 @@
 - Collecting money(test mode) from users using stripe
 - Create order database to record all the order information, including user name and product information and total amount and created time, that users have placed
 
-## Lessons Learned:
+### Lessons Learned:
+
+Part for Me(Yuchen):
+Teamwork: Most of the time, I complete a project by myself. This is my first time as a team lead, and I am glad that my team members are very supportive of me. However, based on this assignment, I think there are still many things I need to improve, such as the design of some Schemas. When designing Products and Collections, I need to consider the usage logic of the Admin side, otherwise it will interfere with other parts. For example, I wrote AddressArray in the User Schema, but this part was not discussed and confirmed with Yantong. Its platform defaults to displaying one Address for one User, so we decided to keep the modification to a minimum and read the default address by default. There are many such things that made me realize that as a team lead, in addition to technical details, you also need strong overall architectural capabilities and be able to foresee some "things that may happen."
+Functionality:
 
 Part for Siyu Sun:
 Stripe is a new payment tool to learn and there are many documentations to read in order to install and incorporate it. I start v0.3 early to allow more time to read and try out examples in the documentations and figure it out.
 After incorporating “checkout sessions” in Stripe, we are able to collect money from users(test mode) using Stripe. However, listening to information from Stripe using webhooks(if money has been received) requires our server to be public(otherwise, Stripe will not be able to send information). As a result, our current code does not verify if money has been received automatically, and we can only check manually by going to the developer dashboard and seeing if the transaction exists.
 
-## References
+### Design
+
+### References
 
 https://nextjs.org/blog/building-apis-with-nextjs
 https://docs.stripe.com/get-started/development-environment
 https://docs.stripe.com/api/checkout/sessions
 https://docs.stripe.com/webhooks
 https://www.youtube.com/watch?v=SR4dFgdKUyI&t=27984s
+
+https://global.mardimercredi.com/index.html
+(All the picture and Description we use for test come form this brand)
+
+---
 
 ## Admin Part
 
