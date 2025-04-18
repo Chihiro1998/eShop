@@ -109,3 +109,5 @@ https://global.mardimercredi.com/index.html
 1. Image upload implementation: When implementing image uploads with shadcn/ui's FormField component to handle image URLs, I encountered an issue where field.value would reset to an empty value during new additions, causing failures. To resolve this, I created a custom onChange handler using form.getValues() and form.setValue() methods to properly maintain the values.
 
 2. Dashboard performance optimization: The dashboard initially loaded slowly because it needed to calculate order sales data, sometimes resulting in unresponsive navigation. To improve this, I refactored the dashboard displays into separate components and implemented lazy loading using Next.js's dynamic imports. This approach allows the dashboard page to load first with placeholders, then progressively render the components as data becomes available. Additionally, I wrapped table components with React.memo to prevent unnecessary re-renders when data remains unchanged, leveraging component caching for better performance. These optimizations significantly improved the user experience by reducing load times and increasing responsiveness.
+
+---
