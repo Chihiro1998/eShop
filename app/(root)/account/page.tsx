@@ -1,0 +1,76 @@
+"use client";
+
+import { SignOutButton, useUser } from "@clerk/nextjs";
+import { useState } from "react";
+import AddressBookSection from "./AddressBookSection";
+import MyProfileSection from "./MyProfileSection";
+import OrdersSection from "./OrdersSection";
+import Wishlist from "./WishlistSection";
+
+const AccountPage = () => {
+  const { user } = useUser();
+  const [activeTab, setActiveTab] = useState("profile");
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Banner */}
+      <div className="bg-purple-3 text-white py-20 px-6 rounded-2xl shadow-md mt-6 max-w-7xl mx-auto">
+        <h1 className="text-4xl text-pink-1 text-center font-[Pacifico]">
+          ✨ Your Perfect Style is <br /> Just a Click Away! ✨
+        </h1>
+        <p className="mt-2 text-center text-[1rem] text-gray-300">
+          Welcome to E-shop — find your own style and goods here!
+        </p>
+      </div>
+
+      {/* Layout */}
+      <section className="max-w-7xl mx-auto px-6 py-10 flex gap-10">
+        {/* Sidebar */}
+        <aside className="w-1/4 pr-6 border-r border-gray-300">
+          <nav className="flex flex-col space-y-4 text-purple-1 font-medium">
+            <button
+              onClick={() => setActiveTab("profile")}
+              className="text-left  hover:text-purple-2"
+            >
+              My Profile
+            </button>
+            <button
+              onClick={() => setActiveTab("wishlist")}
+              className="text-left  hover:text-purple-2"
+            >
+              My Wishlist
+            </button>
+            <button
+              onClick={() => setActiveTab("orders")}
+              className="text-left  hover:text-purple-2"
+            >
+              My Orders
+            </button>
+            <button
+              onClick={() => setActiveTab("addresses")}
+              className="text-left hover:text-purple-2"
+            >
+              Address Book
+            </button>
+
+            <SignOutButton>
+              <span className=" hover:text-purple-2 text-purple-1 cursor-pointer text-left">
+                Log Out
+              </span>
+            </SignOutButton>
+          </nav>
+        </aside>
+
+        {/* Content Area */}
+        <div className="flex-1">
+          {activeTab === "wishlist" && <Wishlist />}
+          {activeTab === "profile" && <MyProfileSection />}
+          {activeTab === "orders" && <OrdersSection />}
+          {activeTab === "addresses" && <AddressBookSection />}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default AccountPage;
