@@ -3,11 +3,35 @@
 **Introduction:** A full-featured e-commerce web application with Admin Dashboard built using **Next.js App Router**.  
 It supports product browsing, wishlist management, user account pages, and an admin dashboard to manage the shop.
 
+HomePage ScreenShoot:
+![Demo Screenshot](https://github.com/user-attachments/assets/17542b05-2cdd-400c-b2ab-a9fcbc022a30)
+
 ---
 
-This project is the Final Project of CS5610 Web Dev. Our team members are as follows:
---**Team Lead:** Yuchen Kuang
---**Team Members:** Yantong Guo, Siyu Sun
+This project is the Final Project of CS5610 Web Dev.  
+Our team members are as follows:  
+- **Team Lead:** Yuchen Kuang  
+- **Team Members:** Yantong Guo, Siyu Sun
+
+## 👥 Team Roles & Contributions
+
+This project was developed collaboratively as the final project for the CS5610 Web Development course.  
+Each team member contributed to distinct areas of the application as outlined below:
+
+- **Yuchen Kuang (Team Lead)**  
+  ▸ Designed the overall **project architecture and file structure**  
+  ▸ Responsible for **MongoDB data modeling** and schema design in shop  
+  ▸ Led the **UI/UX and visual design**, including page layout and component styling  
+  ▸ Integrated key application routes and coordinated module development such as User Dashboard, Product Card, WishList, Product Detail Page, Home Page and so on
+
+- **Siyu Sun**  
+  ▸ Built the **shopping cart** functionality with add/remove logic  
+  ▸ Integrated **Stripe Checkout** for secure payments   
+
+- **Yantong Guo**  
+  ▸ Developed the **Admin Dashboard** for managing products, collections, and orders  
+  ▸ Implemented backend **CRUD API endpoints** with access control  
+  ▸ Designed and connected admin UI components with backend logic 
 
 ---
 
@@ -79,7 +103,7 @@ This project consists of two parts- Shop & Admin Dashboard. The source code of t
 shop
 ├── README.md
 ├── app
-│   ├── (auth) 
+│   ├── (auth)                                     # Authentication pages (sign-in, sign-up)
 │   │   ├── layout.tsx
 │   │   ├── sign-in
 │   │   │   └── [[...sign-in]]
@@ -88,26 +112,26 @@ shop
 │   │       └── [[...sign-up]]
 │   │           └── page.tsx
 │   ├── (root)                                      # Root layout
-│   │   ├── account                                 # For the User Dashboard
+│   │   ├── account                                 # User dashboard sections (profile, orders, wishlist, address)
 │   │   │   ├── AddressBookSection.tsx
 │   │   │   ├── MyProfileSection.tsx
 │   │   │   ├── OrdersSection.tsx
 │   │   │   ├── WishlistSection.tsx
 │   │   │   └── page.tsx
-│   │   ├── cart
+│   │   ├── cart                                   # Shopping cart page
 │   │   │   └── page.tsx
-│   │   ├── collections
+│   │   ├── collections                            # Collection display pages
 │   │   │   └── [collectionId]
 │   │   │       ├── CollectionClient.tsx
 │   │   │       └── page.tsx
-│   │   ├── layout.tsx
+│   │   ├── layout.tsx                            
 │   │   ├── page.tsx
 │   │   ├── payment_success
 │   │   │   └── page.tsx
-│   │   ├── product
+│   │   ├── product                                # Product detail page
 │   │   │   └── [productId]
 │   │   │       └── page.tsx
-│   │   ├── search
+│   │   ├── search     
 │   │   │   └── page.tsx
 │   │   ├── user
 │   │   │   └── [[...rest]]
